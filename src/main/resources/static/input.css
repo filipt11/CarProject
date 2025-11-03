@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+@import "flowbite";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "/home/filip/Dokumenty/java/CarProject/node_modules/flowbite";
+*/

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{formAdding.title}"></title>
+</head>
+<body>
+<header>
+    <a href="/carList?lang=en">EN</span></a>
+    <a href="/carList?lang=pl">PL</a>
+</header>
+    <nav>
+        <a href="/formAdding"><span th:text="#{navbar.adding}"></span></a>
+        <a href="/carList"><span th:text="#{navbar.list}"></span></a>
+    </nav>
+    <h1>
+        <span th:text="#{form.header}"></span>
+    </h1>
+    <form action="/addCar" method="POST">
+        <label th:text="#{form.brand}"></label>
+        <input type="text" name="brand">
+        <br>
+        <label th:text="#{form.model}"></label>
+        <input type="text" name="model">
+        <br>
+        <label th:text="#{form.prodYear}"></label>
+        <input type="number" name="prodYear">
+        <br>
+        <label th:text="#{form.engineSize}"></label>
+        <input type="number" step="0.1" name="engineSize">
+        <br>
+        <label th:text="#{form.hp}"></label>
+        <input type="number" name="hp">
+        <br>
+        <input type="submit">
+    </form>
+
+</body>
+</html>
