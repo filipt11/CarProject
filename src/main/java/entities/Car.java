@@ -23,13 +23,15 @@ public class Car {
     private int ProdYear;
     private float EngineSize;
     private int Hp;
+    private String Description;
 
-    public Car(String brand, String model, int prodYear, float engineSize, int hp) {
+    public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {
         Brand = brand;
         Model = model;
         ProdYear = prodYear;
         EngineSize = engineSize;
         Hp = hp;
+        Description=description;
     }
 
 }
