@@ -1,8 +1,6 @@
 package entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -23,6 +21,7 @@ public class Car {
     private int ProdYear;
     private float EngineSize;
     private int Hp;
+    @Column(columnDefinition = "TEXT")
     private String Description;
 
     public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {

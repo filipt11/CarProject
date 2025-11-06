@@ -20,7 +20,7 @@ public class MessageConfig implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.GERMANY);
-        slr.setDefaultTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
+        slr.setDefaultTimeZone(TimeZone.getTimeZone("UTC"));
         return slr;
 
     }

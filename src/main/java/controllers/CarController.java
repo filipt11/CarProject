@@ -21,6 +21,12 @@ public class CarController {
         //car = new Car();
         return "formAdding";
     }
+    @RequestMapping("/allCars")
+    public String allCars(Model model){
+        model.addAttribute("list",carService.selectAll());
+        return "allCars";
+    }
+
     @RequestMapping("/addCar")
     public String addCar(Car car){
         carService.saving(car);
