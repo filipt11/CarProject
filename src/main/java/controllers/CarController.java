@@ -30,7 +30,6 @@ public class CarController {
     }
     @RequestMapping("/allCars")
     public String allCars(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size, @RequestParam (defaultValue = "no") String sort, Model model){
-//        model.addAttribute("list",carService.selectAll());
         Page<Car> result = carService.selectPaging(page,size,sort);
         model.addAttribute("list", result);
         model.addAttribute("numbers",carService.createPageNumbers(page, result.getTotalPages()));

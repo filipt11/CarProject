@@ -13,24 +13,25 @@ import lombok.*;
 
 public class Car {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carGen")
+    @SequenceGenerator(name = "carGen", sequenceName = "car_seq", allocationSize = 1)
     private long id;
 
-    private String Brand;
-    private String Model;
-    private int ProdYear;
-    private float EngineSize;
-    private int Hp;
+    private String brand;
+    private String model;
+    private int prodYear;
+    private float engineSize;
+    private int hp;
     @Column(columnDefinition = "TEXT")
-    private String Description;
+    private String description;
 
-    public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {
-        Brand = brand;
-        Model = model;
-        ProdYear = prodYear;
-        EngineSize = engineSize;
-        Hp = hp;
-        Description=description;
-    }
+public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {
+    this.brand = brand;
+    this.model = model;
+    this.prodYear = prodYear;
+    this.engineSize = engineSize;
+    this.hp = hp;
+    this.description = description;
+}
 
 }
