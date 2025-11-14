@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
-<html class="dark">
+<html class="dark" lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{carList.title}"></title>
+    <title th:text="#{reservations.title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/output.css}" />
 </head>
@@ -107,53 +106,10 @@
 
 <div class="bg-white border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700" style="padding:10px; display:flex; align-items:center; justify-content:center;">
     <div class="p-5">
-            <h1 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="#{carList.header}"></h1>
+        <h1 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="#{carList.header}"></h1>
     </div>
 </div>
 
-<main style="display:flex; flex-direction:column; align-items:center; background-color:rgb(17,24,39);">
-
-    <div th:each="car:${list}" class="mt-4">
-<div class="max-w-lg bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
-        <img class="rounded-t-lg" th:src="@{/images/{file}(file=${car.image})}" alt="" />
-    </a>
-    <div class="p-5 text-2xl tracking-tight text-gray-900 dark:text-white">
-        <div style="margin-bottom:10px;">
-                            <span th:text="${car.brand}"></span>
-                            <span th:text="${car.model}"></span>
-                            <br>
-        </div>
-        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" th:text="#{read.more}">
-            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-        </a>
-    </div>
-</div>
-</div>
-</main>
-<div style="background-color:rgb(17,24,39); height:16px;"></div>
-<footer class="bg-white shadow-sm dark:bg-gray-800">
-    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
-    </span>
-        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">About</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline">Contact</a>
-            </li>
-        </ul>
-    </div>
-</footer>
 <script th:src="@{/flowbite.min.js}"></script>
 </body>
 </html>

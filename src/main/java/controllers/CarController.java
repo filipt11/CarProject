@@ -20,7 +20,7 @@ public class CarController {
 
     @RequestMapping("/")
     public String carList1(Model model){
-        model.addAttribute("list",carService.selectAll());
+        model.addAttribute("list",carService.selectHighlighted());
         return "carList";
     }
     @RequestMapping("/formAdding")
@@ -45,7 +45,7 @@ public class CarController {
     }
     @RequestMapping("/carList")
     public String carList(Model model){
-        model.addAttribute("list",carService.selectAll());
+        model.addAttribute("list",carService.selectHighlighted());
         return "carList";
     }
 }

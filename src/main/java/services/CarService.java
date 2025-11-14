@@ -28,6 +28,10 @@ public class CarService {
         return carRepository.findAll();
     }
 
+    public List<Car> selectHighlighted(){
+        return carRepository.findByHighlightedTrue();
+    }
+
     public Page<Car> selectPaging(int page, int size, String sort) {
         Sort sorting;
         if ("no".equals(sort)) {
@@ -45,6 +49,11 @@ public class CarService {
 public List<Integer> createPageNumbers(int current, int totalPages) {
     List<Integer> pageNumbers = new ArrayList<>();
     if (totalPages <= 0) return pageNumbers;
+
+    if (totalPages <= 4) {
+        for (int i = 0; i < totalPages; i++) pageNumbers.add(i);
+        return pageNumbers;
+    }
 
     pageNumbers.add(0);
 
