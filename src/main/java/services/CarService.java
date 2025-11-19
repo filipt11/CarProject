@@ -28,6 +28,10 @@ public class CarService {
         return carRepository.findAll();
     }
 
+    public List<String> selectBrands(){
+        return carRepository.findAllDistinctBrandsOrdered();
+    }
+
     public List<Car> selectHighlighted(){
         return carRepository.findByHighlightedTrue();
     }
@@ -83,4 +87,17 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
     return pageNumbers;
 }
 
+    public Page<Car> selectPagingByBrands(int page, int size, String sort, List<String> brands) {
+        Sort sorting;
+        if ("no".equals(sort)) {
+            sorting = Sort.by("id").ascending();
+        } else if ("asc".equals(sort)) {
+            sorting = Sort.by("brand").ascending();
+        } else {
+            sorting = Sort.by("brand").descending();
+        }
+        Pageable paging = PageRequest.of(page, size, sorting);
+
+        return carRepository.findByBrandIn(brands, paging);
+    }
 }

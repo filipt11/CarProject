@@ -35,5 +35,7 @@ public class Reservation {
     public Reservation(LocalDate startDate, LocalDate endDate, Users user, Car car) {
         this.startDate = startDate;
         this.endDate = endDate;
+        this.user = user;
+        this.car = car;
     }
 }
