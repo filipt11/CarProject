@@ -1,0 +1,45 @@
+package dto;
+
+import entities.Car;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
+;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+
+public class CarDto {
+
+    @NotBlank(message = "{brand.empty}")
+    @Size(min=2, max=30, message = "{brand.size}")
+    private String brand;
+
+    @NotBlank(message = "{model.empty}")
+    @Size(min=1, max=50, message = "{model.size}")
+    private String model;
+
+    @NotNull(message = "{prodYear.empty}")
+    @Min(value=1980, message = "{prodYear.min}")
+    @Max(value=2025, message = "{prodYear.max}")
+    private int prodYear;
+
+    @NotNull(message = "{engineSize.empty)")
+    @DecimalMin(value="0.6",message = "{engineSize.min}")
+    @DecimalMax(value="8.0",message = "{engineSize.max}")
+    private float engineSize;
+
+    @NotNull(message = "{hp.empty)")
+    @Min(value=40, message = "{hp.min}")
+    @Max(value=1600, message = "{hp.max}")
+    private int hp;
+
+    @Size(max=5000,message = "{description.size}")
+    private String description;
+
+    private String image;
+
+}

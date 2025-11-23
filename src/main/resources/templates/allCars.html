@@ -141,13 +141,32 @@
                         <input type="hidden" name="sort" th:value="${sort}">
                     <div id="filterDropdown" class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
                         <h6 th:text="#{cars.filter}" class="mb-3 text-sm font-medium text-gray-900 dark:text-white"></h6>
-                        <ul class="space-y-2 text-sm max-h-64 overflow-y-auto" aria-labelledby="filterDropdownButton">
-                            <li class="flex dark:text-white items-center w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" th:each="brand, iterStat:${brands}">
-                                <input th:id="'brand' + ${iterStat.index}" name="brand" type="checkbox" th:checked="${selectedBrands != null && selectedBrands.contains(brand)}" th:value="${brand}" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label th:text="${brand}" th:for="'brand' + ${iterStat.index}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"></label>
+                        <div class="flex gap-2 mb-3">
+                        <button th:text="#{button.clear}" type="button" onclick="uncheckAllBrands()" class="flex items-center mb-2 justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-xs px-2 py-1 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"></button>
+
+                        <button th:text="#{button.select.all}" type="button" onclick="selectAllBrands()" class="flex items-center mb-2 justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-xs px-2 py-1 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"></button>
+
+                        </div>
+                        <ul class="space-y-2 text-sm max-h-56 overflow-y-auto pr-2" aria-labelledby="filterDropdownButton">
+                            <li class="flex items-start" th:each="brand, iterStat:${brands}">
+                                <div class="flex items-center w-full">
+                                    <input
+                                            th:id="'brand' + ${iterStat.index}"
+                                            name="brand"
+                                            type="checkbox"
+
+                                            th:checked="${selectedBrands != null && selectedBrands.contains(brand)}"
+                                            th:value="${brand}"
+                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 shrink-0">
+                                    <label
+                                            th:text="${brand}"
+                                            th:for="'brand' + ${iterStat.index}"
+                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 break-words overflow-wrap-anywhere flex-1 cursor-pointer">
+                                    </label>
+                                </div>
                             </li>
                         </ul>
-                        <button type="submit">test</button>
+                        <button type="submit" th:text="#{multiselect.apply}" class="flex items-center mt-4 justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"></button>
                     </div>
                     </form>
 
@@ -204,7 +223,7 @@
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto min-h-[400px]">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -302,6 +321,16 @@
         </ul>
     </div>
 </footer>
-<script th:src="@{/flowbite.min.js}"></script>
+<script th:src="@{/flowbite.min.js}">
+
+</script>
+<script>
+    function selectAllBrands() {
+document.querySelectorAll('input[name="brand"]').forEach(cb => cb.checked = true);
+}
+   function uncheckAllBrands() {
+document.querySelectorAll('input[name="brand"]').forEach(cb => cb.checked = false);
+}
+</script>
 </body>
 </html>

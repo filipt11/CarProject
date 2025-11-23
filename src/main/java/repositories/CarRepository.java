@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car,Long> {
     List<Car> findByHighlightedTrue();
+
     @Query("select distinct c.brand from Car c order by c.brand")
     List<String> findAllDistinctBrandsOrdered();
 

@@ -1,5 +1,6 @@
 package services;
 
+import dto.CarDto;
 import entities.Car;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +37,7 @@ public class CarService {
         return carRepository.findByHighlightedTrue();
     }
 
-    public Page<Car> selectPaging(int page, int size, String sort) {
+    public Page<Car> selectPaging(int page, int size, String sort, List<String> brands) {
         Sort sorting;
         if ("no".equals(sort)) {
             sorting = Sort.by("id").ascending();
@@ -47,7 +48,11 @@ public class CarService {
         }
         Pageable paging = PageRequest.of(page, size, sorting);
 
-        return carRepository.findAll(paging);
+        if (brands == null || brands.isEmpty()) {
+            return carRepository.findAll(paging);
+        }
+
+        return carRepository.findByBrandIn(brands, paging);
     }
 
 public List<Integer> createPageNumbers(int current, int totalPages) {
@@ -87,17 +92,5 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
     return pageNumbers;
 }
 
-    public Page<Car> selectPagingByBrands(int page, int size, String sort, List<String> brands) {
-        Sort sorting;
-        if ("no".equals(sort)) {
-            sorting = Sort.by("id").ascending();
-        } else if ("asc".equals(sort)) {
-            sorting = Sort.by("brand").ascending();
-        } else {
-            sorting = Sort.by("brand").descending();
-        }
-        Pageable paging = PageRequest.of(page, size, sorting);
 
-        return carRepository.findByBrandIn(brands, paging);
-    }
 }

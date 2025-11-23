@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
-<html class="dark">
+<html class="dark" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{formAdding.title}"></title>
+    <title th:text="#{form.reservation.title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/output.css}" />
 </head>
 <body>
-<header>
 
+<header>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
@@ -93,88 +92,61 @@
 
 
                     <li>
-                        <a href="#" class="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
+                        <a href="/formReservation" th:text="#{navbar.add.reservation}" class="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"></a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-lg md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                        <a href="/reservations" th:text="#{navbar.reservations}" class="block py-2 px-3 text-lg md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-</header>
 
+</header>
 <div class="bg-white border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700" style="padding:10px; display:flex; align-items:center; justify-content:center;">
     <div class="p-5">
-        <h1 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="#{form.header}"></h1>
+        <h1 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="#{form.reservation.header}"></h1>
     </div>
 </div>
 <section class="bg-white dark:bg-gray-900">
     <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-
-        <form th:action="@{/addCar}" th:object="${carDto}" method="POST">
-            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                <div class="sm:col-span-2">
-                    <label th:text="#{form.brand}" for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                    <input type="text" th:field="*{brand}" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
-                </div>
-                <div class="w-full">
-                    <label th:text="#{form.model}" for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                    <input type="text" th:field="*{model}" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
-                </div>
-                <div class="w-full">
-                    <label th:text="#{form.prodYear}" for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                    <input type="number" th:field="*{prodYear}" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
-                </div>
-                <div>
-                    <label th:text="#{form.engineSize}" for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                    <input type="number" step="0.1" id="category" th:field="*{engineSize}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
-
-                </div>
-                <div>
-                    <label th:text="#{form.hp}" for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                    <input type="number" th:field="*{hp}" id="item-weight" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
-                </div>
-                <div class="sm:col-span-2">
-                    <label th:text="#{form.description}" for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                    <textarea id="description" th:field="*{description}" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.optional.placeholder}"></textarea>
-                </div>
+    <div id="date-range-picker" date-rangepicker class="flex items-center">
+        <form method="POST" th:action="@{/addReservation}" th:object="${ReservationDto}">
+        <div>
+            <label th:text="#{form.hp}" for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+            <input type="number" id="item-weight" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
+        </div>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
             </div>
-            <button th:text="#{form.button}" type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-
-            </button>
-            <div style="color:red; margin-top:20px; font-size:18px">
-            <p th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" ></p>
-            <p th:if="${#fields.hasErrors('model')}" th:errors="*{model}" ></p>
-            <p th:if="${#fields.hasErrors('prodYear')}" th:errors="*{prodYear}" ></p>
-            <p th:if="${#fields.hasErrors('engineSize')}" th:errors="*{engineSize}" ></p>
-            <p th:if="${#fields.hasErrors('hp')}" th:errors="*{hp}" ></p>
-            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" ></p>
+            <input id="datepicker-range-start" name="start" type="text" class="block w-full pl-9 pr-3 py-2.5
+       bg-white dark:bg-gray-800
+       border border-gray-300 dark:border-gray-600
+       text-gray-900 dark:text-white
+       placeholder-gray-400 dark:placeholder-gray-500
+       rounded-lg focus:ring-primary-500 focus:border-primary-500" placeholder="Select date start">
+        </div>
+        <span class="mx-4 text-body">to</span>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
             </div>
+            <input id="datepicker-range-end" name="end" type="text" class="block w-full pl-9 pr-3 py-2.5
+       bg-white dark:bg-gray-800
+       border border-gray-300 dark:border-gray-600
+       text-gray-900 dark:text-white
+       placeholder-gray-400 dark:placeholder-gray-500
+       rounded-lg focus:ring-primary-500 focus:border-primary-500" placeholder="Select date end">
+        </div>
 
         </form>
+
+    </div>
+
     </div>
 </section>
-<footer class="bg-white shadow-sm dark:bg-gray-800">
-    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
-    </span>
-        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">About</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline">Contact</a>
-            </li>
-        </ul>
-    </div>
-</footer>
+
 <script th:src="@{/flowbite.min.js}"></script>
 </body>
 </html>

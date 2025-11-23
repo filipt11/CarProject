@@ -1,13 +1,16 @@
 package controllers;
 
+import dto.CarDto;
 import entities.Car;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import utils.CarConverter;
 
 import java.util.List;
 
@@ -20,40 +23,55 @@ public class CarController {
         this.carService = carService;
     }
 
+    @Autowired
+    private CarConverter carConverter;
+
     @RequestMapping("/")
     public String carList1(Model model){
         model.addAttribute("list",carService.selectHighlighted());
         return "carList";
     }
-    @RequestMapping("/formAdding")
-    public String formAdding(Car car) {
-        //car = new Car();
+
+    @GetMapping("/formAdding")
+    public String formAdding(Model model) {
+        model.addAttribute("carDto", new CarDto());
         return "formAdding";
     }
-    @RequestMapping("/allCars")
+
+    @PostMapping("/addCar")
+    public String addCar(@Valid @ModelAttribute CarDto carDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return "formAdding";
+        }
+        Car car = carConverter.toEntity(carDto);
+        carService.saveCar(car);
+        return "redirect:/added";
+    }
+
+    @RequestMapping("/added")
+    public String added123 (Model model){
+        return "added";
+    }
+
+    @GetMapping("/allCars")
     public String allCars(
             @RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size, @RequestParam (defaultValue = "no") String sort, @RequestParam (required=false) List<String> brand, Model model){
 
-        Page<Car> result;
-
-        if (brand != null && !brand.isEmpty()) {
-            result = carService.selectPagingByBrands(page, size, sort, brand);
-        } else {
-            result = carService.selectPaging(page, size, sort);
+        if (brand == null || brand.isEmpty()) {
+            brand = carService.selectBrands();
         }
+
+        Page<Car> result = carService.selectPaging(page, size, sort, brand);
+
         model.addAttribute("list", result);
         model.addAttribute("numbers",carService.createPageNumbers(page, result.getTotalPages()));
         model.addAttribute("sort",sort);
         model.addAttribute("size",size);
         model.addAttribute("brands",carService.selectBrands());
+        model.addAttribute("selectedBrands", brand);
         return "allCars";
     }
 
-    @RequestMapping("/addCar")
-    public String addCar(Car car){
-        carService.saveCar(car);
-        return "added";
-    }
     @RequestMapping("/carList")
     public String carList(Model model){
         model.addAttribute("list",carService.selectHighlighted());
