@@ -23,6 +23,9 @@ public class ReservationService {
     public List<Reservation> selectAll(){
         return reservationRepository.findAll();
     }
+    public void saveReservation(Reservation reservation){
+         reservationRepository.save(reservation);
+    }
 
     public Page<Reservation> selectPaging(int page, int size, String sort) {
         Sort sorting;

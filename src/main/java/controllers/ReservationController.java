@@ -3,15 +3,17 @@ package controllers;
 import dto.CarDto;
 import dto.ReservationDto;
 import entities.Reservation;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import services.ReservationService;
 import utils.ReservationConverter;
+
+import javax.smartcardio.CardTerminal;
 
 @Controller
 public class ReservationController {
@@ -27,8 +29,19 @@ public class ReservationController {
 
     @GetMapping("/formReservation")
         public String formReservation(Model model){
-        model.addAttribute("ReservationDto", new ReservationDto());
+        model.addAttribute("reservationDto", new ReservationDto());
         return("formReservation");
+    }
+
+    @PostMapping("/addReservation")
+    public String addReservation(@Valid @ModelAttribute ReservationDto reservationDto, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return("formReservation");
+        }
+        Reservation reservation = reservationConverter.toEntity(reservationDto);
+        reservationService.saveReservation(reservation);
+
+        return("addedReservation");
     }
 
     @GetMapping("/reservations")
