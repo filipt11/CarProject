@@ -1,7 +1,8 @@
-package dto;
+package com.example.CarProject.dto;
 
-import entities.Car;
-import entities.Users;
+import com.example.CarProject.annotation.NoDoubleReservation;
+import com.example.CarProject.entities.Car;
+import com.example.CarProject.entities.Users;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -17,14 +18,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 
+@NoDoubleReservation
 public class ReservationDto {
 
+
     @DateTimeFormat(pattern="MM/dd/yyyy")
-    @FutureOrPresent
+    @FutureOrPresent(message = "{reservation.start.date}")
     private LocalDate startDate;
 
     @DateTimeFormat(pattern="MM/dd/yyyy")
-    @FutureOrPresent
+    @FutureOrPresent(message = "{reservation.end.date}")
     private LocalDate endDate;
 
     private Users user;

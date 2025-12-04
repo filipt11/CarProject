@@ -1,11 +1,10 @@
-package utils;
+package com.example.CarProject.utils;
 
-import dto.ReservationDto;
-import entities.Reservation;
+import com.example.CarProject.dto.ReservationDto;
+import com.example.CarProject.entities.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import repositories.UsersRepository;
+import com.example.CarProject.repositories.UsersRepository;
 
 @Component
 public class ReservationConverter {

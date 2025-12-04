@@ -1,4 +1,4 @@
-package entities;
+package com.example.CarProject.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

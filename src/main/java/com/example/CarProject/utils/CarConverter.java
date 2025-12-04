@@ -1,7 +1,7 @@
-package utils;
+package com.example.CarProject.utils;
 
-import dto.CarDto;
-import entities.Car;
+import com.example.CarProject.dto.CarDto;
+import com.example.CarProject.entities.Car;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

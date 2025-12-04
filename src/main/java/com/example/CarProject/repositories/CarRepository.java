@@ -1,6 +1,6 @@
-package repositories;
+package com.example.CarProject.repositories;
 
-import entities.Car;
+import com.example.CarProject.entities.Car;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

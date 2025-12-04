@@ -1,13 +1,13 @@
-package services;
+package com.example.CarProject.services;
 
-import entities.Reservation;
+import com.example.CarProject.entities.Reservation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
-import repositories.ReservationRepository;
+import com.example.CarProject.repositories.ReservationRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,5 @@
-package dto;
+package com.example.CarProject.dto;
 
-import entities.Car;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 ;

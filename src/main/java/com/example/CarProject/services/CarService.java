@@ -1,11 +1,10 @@
-package services;
+package com.example.CarProject.services;
 
-import dto.CarDto;
-import entities.Car;
+import com.example.CarProject.entities.Car;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import repositories.CarRepository;
+import com.example.CarProject.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;

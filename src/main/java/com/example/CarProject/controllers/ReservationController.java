@@ -1,8 +1,7 @@
-package controllers;
+package com.example.CarProject.controllers;
 
-import dto.CarDto;
-import dto.ReservationDto;
-import entities.Reservation;
+import com.example.CarProject.dto.ReservationDto;
+import com.example.CarProject.entities.Reservation;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -10,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import services.ReservationService;
-import utils.ReservationConverter;
-
-import javax.smartcardio.CardTerminal;
+import com.example.CarProject.services.ReservationService;
+import com.example.CarProject.utils.ReservationConverter;
 
 @Controller
 public class ReservationController {

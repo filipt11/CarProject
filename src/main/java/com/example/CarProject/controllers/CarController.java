@@ -1,16 +1,16 @@
-package controllers;
+package com.example.CarProject.controllers;
 
-import dto.CarDto;
-import entities.Car;
+import com.example.CarProject.dto.CarDto;
+import com.example.CarProject.entities.Car;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import services.CarService;
+import com.example.CarProject.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import utils.CarConverter;
+import com.example.CarProject.utils.CarConverter;
 
 import java.util.List;
 

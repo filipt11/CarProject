@@ -1,4 +1,4 @@
-package utils;
+package com.example.CarProject.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

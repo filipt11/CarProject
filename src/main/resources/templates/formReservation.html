@@ -134,9 +134,13 @@
 
             </button>
             <div style="color:red; margin-top:20px; font-size:18px">
-            <p th:if="${#fields.hasErrors('car')}" th:errors="*{car}" ></p>
-            <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" ></p>
-            <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" ></p>
+                <p th:if="${#fields.hasErrors('car')}" th:errors="*{car}" ></p>
+                <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" ></p>
+                <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" ></p>
+
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+                </div>
             </div>
         </form>
 
