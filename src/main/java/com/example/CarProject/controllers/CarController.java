@@ -2,6 +2,7 @@ package com.example.CarProject.controllers;
 
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.CarProject.utils.CarConverter;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -63,18 +66,53 @@ public class CarController {
 
         Page<Car> result = carService.selectPaging(page, size, sort, brand);
 
+        long totalElements = result.getTotalElements();
+        int startItem = (page * size) + 1;
+        int endItem = Math.min(startItem + size - 1, (int) totalElements);
+
         model.addAttribute("list", result);
         model.addAttribute("numbers",carService.createPageNumbers(page, result.getTotalPages()));
         model.addAttribute("sort",sort);
         model.addAttribute("size",size);
         model.addAttribute("brands",carService.selectBrands());
         model.addAttribute("selectedBrands", brand);
+        
+        model.addAttribute("totalElements", totalElements);
+        model.addAttribute("startItem", startItem);
+        model.addAttribute("endItem", endItem);
         return "allCars";
     }
 
-    @RequestMapping("/carList")
+    @GetMapping("/carList")
     public String carList(Model model){
         model.addAttribute("list",carService.selectHighlighted());
         return "carList";
     }
+
+    @GetMapping("/carExport")
+    public void carExportToCsv(@RequestParam (required=false) List<String> brand, HttpServletResponse response)
+            throws IOException {
+
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=cars.csv");
+        List<Car> cars = carService.selectedBrands(brand);
+
+
+        try (PrintWriter writer = response.getWriter()) {
+            writer.println("ID,Brand,Model,Year,EngineSize,HP");
+
+            for (Car car : cars) {
+                writer.printf("%d,%s,%s,%d,%.1f,%d%n",
+                        car.getId(),
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getProdYear(),
+                        car.getEngineSize(),
+                        car.getHp()
+                );
+            }
+        }
+    }
 }
+
+

@@ -54,6 +54,14 @@ public class CarService {
         return carRepository.findByBrandIn(brands, paging);
     }
 
+    public List<Car> selectedBrands(List<String> brands) {
+        Pageable paging = Pageable.unpaged();
+        if (brands == null || brands.isEmpty()) {
+            return carRepository.findAll(paging).getContent();
+        }
+        return carRepository.findByBrandIn(brands, paging).getContent();
+    }
+
 public List<Integer> createPageNumbers(int current, int totalPages) {
     List<Integer> pageNumbers = new ArrayList<>();
     if (totalPages <= 0) return pageNumbers;

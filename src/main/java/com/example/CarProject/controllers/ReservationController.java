@@ -44,10 +44,18 @@ public class ReservationController {
     @GetMapping("/reservations")
         public String allReservations(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size, @RequestParam (defaultValue = "no") String sort, Model model){
             Page<Reservation> result = reservationService.selectPaging(page,size,sort);
+        long totalElements = result.getTotalElements();
+        int startItem = (page * size) + 1;
+        int endItem = Math.min(startItem + size - 1, (int) totalElements);
+
             model.addAttribute("list", result);
             model.addAttribute("numbers",reservationService.createPageNumbers(page, result.getTotalPages()));
             model.addAttribute("sort",sort);
             model.addAttribute("size",size);
+
+            model.addAttribute("totalElements", totalElements);
+            model.addAttribute("startItem", startItem);
+            model.addAttribute("endItem", endItem);
         return "reservations";
     }
 

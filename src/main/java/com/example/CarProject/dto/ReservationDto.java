@@ -5,6 +5,8 @@ import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Users;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,7 +34,7 @@ public class ReservationDto {
 
     private Users user;
 
-    @NotNull
+    @NotNull(message = "can not be empty")
     private Car car;
 
 }
