@@ -2,7 +2,6 @@ package com.example.CarProject.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
-;
 
 @Getter
 @Setter

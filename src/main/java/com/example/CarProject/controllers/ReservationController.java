@@ -35,8 +35,8 @@ public class ReservationController {
         if(bindingResult.hasErrors()){
             return("formReservation");
         }
-        Reservation reservation = reservationConverter.toEntity(reservationDto);
-        reservationService.saveReservation(reservation);
+//        Reservation reservation = reservationConverter.toEntity(reservationDto);
+        reservationService.saveReservation(reservationDto);
 
         return("addedReservation");
     }

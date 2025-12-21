@@ -1,6 +1,11 @@
 package com.example.CarProject.services;
 
+import com.example.CarProject.dto.ReservationDto;
+import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Reservation;
+import com.example.CarProject.exceptions.CarNotFoundException;
+import com.example.CarProject.repositories.CarRepository;
+import com.example.CarProject.utils.ReservationConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,15 +21,25 @@ import java.util.List;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
 
+    private final CarRepository carRepository;
 
-    public ReservationService(ReservationRepository reservationRepository) {
+    public final ReservationConverter reservationConverter;
+
+    public ReservationService(ReservationRepository reservationRepository, CarRepository carRepository, ReservationConverter reservationConverter) {
         this.reservationRepository = reservationRepository;
+        this.carRepository = carRepository;
+        this.reservationConverter = reservationConverter;
     }
     public List<Reservation> selectAll(){
         return reservationRepository.findAll();
     }
-    public void saveReservation(Reservation reservation){
-         reservationRepository.save(reservation);
+    public void saveReservation(ReservationDto dto){
+        if (dto.getCar() == null){
+            throw new CarNotFoundException(); }
+        Long carId = dto.getCar().getId();
+        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException()); dto.setCar(car);
+        Reservation reservation = reservationConverter.toEntity(dto);
+        reservationRepository.save(reservation);
     }
 
     public Page<Reservation> selectPaging(int page, int size, String sort) {

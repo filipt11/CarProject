@@ -5,8 +5,6 @@ import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Users;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,18 +21,19 @@ import java.time.LocalDate;
 @NoDoubleReservation
 public class ReservationDto {
 
-
+    @NotNull(message = "{reservation.start.date}")
     @DateTimeFormat(pattern="MM/dd/yyyy")
     @FutureOrPresent(message = "{reservation.start.date}")
     private LocalDate startDate;
 
+    @NotNull(message = "{reservation.end.date}")
     @DateTimeFormat(pattern="MM/dd/yyyy")
     @FutureOrPresent(message = "{reservation.end.date}")
     private LocalDate endDate;
 
     private Users user;
 
-    @NotNull(message = "can not be empty")
+    @NotNull(message = "{reservation.empty.car}")
     private Car car;
 
 }
