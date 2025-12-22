@@ -11,11 +11,9 @@ import lombok.*;
 
 public class CarDto {
 
-    @NotBlank(message = "{brand.empty}")
     @Size(min=2, max=30, message = "{brand.size}")
     private String brand;
-
-    @NotBlank(message = "{model.empty}")
+    
     @Size(min=1, max=50, message = "{model.size}")
     private String model;
 

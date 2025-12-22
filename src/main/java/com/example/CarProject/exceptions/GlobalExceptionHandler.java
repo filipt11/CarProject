@@ -21,4 +21,34 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return "errorPage";
     }
 
+    @ExceptionHandler(TakenUsernameException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleTakenUsername(TakenUsernameException ex, Model model){
+        logger.warn("User with that username already exits" + ex);
+        model.addAttribute("status",409);
+        model.addAttribute("error",ex.getMessage());
+
+        return "errorPage";
+    }
+
+    @ExceptionHandler(TakenEmailException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleTakenEmail(TakenEmailException ex, Model model){
+        logger.warn("User with that email already exits" + ex);
+        model.addAttribute("status",409);
+        model.addAttribute("error",ex.getMessage());
+
+        return "errorPage";
+    }
+
+    @ExceptionHandler(PasswordsNotMatchingException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleNotMatchingPasswords(PasswordsNotMatchingException ex, Model model){
+        logger.warn("Passwords are not matching");
+        model.addAttribute("status",400);
+        model.addAttribute("error",ex.getMessage());
+
+        return "errorPage";
+    }
+
 }

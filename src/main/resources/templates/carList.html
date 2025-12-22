@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
-<html class="dark">
+<html class="dark" lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{carList.title}"></title>
@@ -73,7 +72,9 @@
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
                         </li>
                         <li>
-                            <a href="/custom-logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                            <form th:action="@{/customLogout}" method="POST">
+                              <button type="submit">  <p class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</p></button>
+                            </form>
                         </li>
                     </ul>
                 </div>
