@@ -1,0 +1,64 @@
+package com.example.CarProject.security;
+
+
+import com.example.CarProject.repositories.MyUserRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.stereotype.Repository;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfiguration {
+
+    private final MyUserRepository myUserRepository;
+
+    public SecurityConfiguration(MyUserRepository myUserRepository) {
+        this.myUserRepository = myUserRepository;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new MyDatabaseUserDetailsService(myUserRepository);
+    }
+
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http)
+            throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
+                )
+                .formLogin((formLogin)->
+                        formLogin
+                                .usernameParameter("username")
+                                .passwordParameter("password")
+                                .loginPage("/authentication/login")
+                                .failureUrl("/authentication/login?failed")
+                                .defaultSuccessUrl("/")
+                                .loginProcessingUrl("/authentication/login/process")
+                                .permitAll()
+                )
+                .logout((logout)->
+                        logout.deleteCookies("nazwa")
+                                .invalidateHttpSession(false)
+                                .logoutUrl("/custom-logout")
+                                .logoutSuccessUrl("/logout-success")
+                                .permitAll()
+                )
+                .httpBasic(Customizer.withDefaults());
+        return http.build();
+    }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+}

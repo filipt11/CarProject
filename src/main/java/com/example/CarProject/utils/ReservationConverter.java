@@ -4,13 +4,13 @@ import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.example.CarProject.repositories.UsersRepository;
+import com.example.CarProject.repositories.MyUserRepository;
 
 @Component
 public class ReservationConverter {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private MyUserRepository usersRepository;
 
     public Reservation toEntity(ReservationDto dto){
         if(dto==null){

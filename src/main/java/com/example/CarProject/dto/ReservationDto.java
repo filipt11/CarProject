@@ -2,7 +2,7 @@ package com.example.CarProject.dto;
 
 import com.example.CarProject.annotation.NoDoubleReservation;
 import com.example.CarProject.entities.Car;
-import com.example.CarProject.entities.Users;
+import com.example.CarProject.entities.MyUser;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +31,7 @@ public class ReservationDto {
     @FutureOrPresent(message = "{reservation.end.date}")
     private LocalDate endDate;
 
-    private Users user;
+    private MyUser user;
 
     @NotNull(message = "{reservation.empty.car}")
     private Car car;

@@ -23,16 +23,16 @@ public class Reservation {
     private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="users_id")
+    @JoinColumn(name="myUser_id")
     @OnDelete(action= OnDeleteAction.SET_NULL)
-    private Users user;
+    private MyUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="car_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Car car;
 
-    public Reservation(LocalDate startDate, LocalDate endDate, Users user, Car car) {
+    public Reservation(LocalDate startDate, LocalDate endDate, MyUser user, Car car) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.user=user;
