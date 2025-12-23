@@ -1,9 +1,11 @@
 package com.example.CarProject.exceptions;
 
+import com.example.CarProject.dto.MyUserDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -25,30 +27,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleTakenUsername(TakenUsernameException ex, Model model){
         logger.warn("User with that username already exits" + ex);
-        model.addAttribute("status",409);
         model.addAttribute("error",ex.getMessage());
+        model.addAttribute("myUserDto", new MyUserDto());
 
-        return "errorPage";
+        return "registrationForm";
     }
 
     @ExceptionHandler(TakenEmailException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleTakenEmail(TakenEmailException ex, Model model){
         logger.warn("User with that email already exits" + ex);
-        model.addAttribute("status",409);
         model.addAttribute("error",ex.getMessage());
+        model.addAttribute("myUserDto", new MyUserDto());
 
-        return "errorPage";
+        return "registrationForm";
     }
 
     @ExceptionHandler(PasswordsNotMatchingException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleNotMatchingPasswords(PasswordsNotMatchingException ex, Model model){
         logger.warn("Passwords are not matching");
-        model.addAttribute("status",400);
         model.addAttribute("error",ex.getMessage());
+        model.addAttribute("myUserDto", new MyUserDto());
 
-        return "errorPage";
+        return "registrationForm";
     }
 
 }

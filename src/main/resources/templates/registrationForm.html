@@ -52,6 +52,7 @@
                         </ul>
                         <p th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" ></p>
                     </div>
+                    <div th:if="${error}" style="color:red; margin-top:20px; font-size:18px"> <p th:text="${error}"></p> </div>
                 </form>
             </div>
         </div>

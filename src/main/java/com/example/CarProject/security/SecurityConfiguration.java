@@ -44,18 +44,24 @@ public class SecurityConfiguration {
                                 .passwordParameter("password")
                                 .loginPage("/authentication/login")
                                 .failureUrl("/authentication/login?failed")
-                                .defaultSuccessUrl("/")
+                                .defaultSuccessUrl("/",true)
                                 .loginProcessingUrl("/authentication/login/process")
                                 .permitAll()
+
                 )
-                .logout((logout)->
-                        logout.deleteCookies("JSESSIONID")
+                .logout((logout)-> logout
+                                .deleteCookies("JSESSIONID","remember-me")
                                 .invalidateHttpSession(true)
-                                .logoutUrl("/customLogout")
+                                .logoutUrl("/logout")
                                 .logoutSuccessUrl("/")
                                 .permitAll()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .rememberMe(remember -> remember
+                        .userDetailsService(userDetailsService())
+                        .tokenValiditySeconds(60*60*24*31)
+                        .key("LouMCbDYl7O2s6pM8RNeJNbr379yNHrM")
+                        .rememberMeParameter("remember"));
+
         return http.build();
     }
 
