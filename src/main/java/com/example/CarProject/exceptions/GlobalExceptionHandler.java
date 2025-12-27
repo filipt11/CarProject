@@ -1,7 +1,9 @@
 package com.example.CarProject.exceptions;
 
 import com.example.CarProject.dto.MyUserDto;
+import com.example.CarProject.security.SignedUserDetails;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,5 +54,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return "registrationForm";
     }
+
+    @ModelAttribute("currentUser")
+    public SignedUserDetails signedUserDetails(@AuthenticationPrincipal SignedUserDetails user){
+        return user;
+    }
+
 
 }

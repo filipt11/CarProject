@@ -16,6 +16,16 @@ import java.util.TimeZone;
 @Configuration
 public class MessageConfig implements WebMvcConfigurer {
 
+//    @Bean
+//    public MessageSource messageSource() {
+//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasename("lang/messages");
+//        messageSource.setDefaultEncoding("UTF-8");
+//        messageSource.setDefaultLocale(Locale.ENGLISH);
+//        messageSource.setFallbackToSystemLocale(false);
+//        return messageSource;
+//    }
+
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
