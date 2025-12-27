@@ -1,7 +1,9 @@
 package com.example.CarProject.controllers;
 
 import com.example.CarProject.dto.ReservationDto;
+import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Reservation;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.CarProject.services.ReservationService;
 import com.example.CarProject.utils.ReservationConverter;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 @Controller
 public class ReservationController {
@@ -57,6 +63,31 @@ public class ReservationController {
             model.addAttribute("startItem", startItem);
             model.addAttribute("endItem", endItem);
         return "reservations";
+    }
+
+    @GetMapping("/reservationExport")
+    public void carExportToCsv(HttpServletResponse response)
+            throws IOException {
+
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
+        List<Reservation> reservations = reservationService.selectAll();
+
+
+        try (PrintWriter writer = response.getWriter()) {
+            writer.println("ID,Car ID,Car Brand,Car Model,Start Date,End Date");
+
+            for (Reservation reservation : reservations) {
+                writer.printf("%d,%d,%s,%s,%s,%s%n",
+                        reservation.getId(),
+                        reservation.getCar().getId(),
+                        reservation.getCar().getBrand(),
+                        reservation.getCar().getModel(),
+                        reservation.getStartDate(),
+                        reservation.getEndDate()
+                );
+            }
+        }
     }
 
 

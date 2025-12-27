@@ -19,6 +19,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservationGen")
     @SequenceGenerator(name = "reservationGen", sequenceName = "reservation_seq", allocationSize = 1)
     private long id;
+
     private LocalDate startDate;
     private LocalDate endDate;
 

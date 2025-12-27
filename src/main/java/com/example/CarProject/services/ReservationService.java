@@ -37,7 +37,8 @@ public class ReservationService {
         if (dto.getCar() == null){
             throw new CarNotFoundException(); }
         Long carId = dto.getCar().getId();
-        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException()); dto.setCar(car);
+        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException());
+        dto.setCar(car);
         Reservation reservation = reservationConverter.toEntity(dto);
         reservationRepository.save(reservation);
     }
