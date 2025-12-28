@@ -2,6 +2,7 @@ package com.example.CarProject.controllers;
 
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
+import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.exceptions.CarNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -113,6 +114,18 @@ public String carDetails(@PathVariable Long id, Model model){
     model .addAttribute("car",car);
     model .addAttribute("owner",owner);
     return "carDetails";
+    }
+
+    @GetMapping("/administration/carUpdate/{id}")
+    public String carUpdate(@PathVariable Long id, Model model){
+        Car car = carService.findById(id).orElseThrow(() -> new CarNotFoundException());
+
+        CarDto dto = carConverter.toDto(car);
+//        Long owner = dto.getUser();
+        model.addAttribute("carDto",dto);
+//        model.addAttribute("owner",owner);
+
+        return "carUpdate";
     }
 
 }

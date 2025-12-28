@@ -1,5 +1,6 @@
 package com.example.CarProject.dto;
 
+import com.example.CarProject.entities.MyUser;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -10,6 +11,8 @@ import lombok.*;
 @ToString
 
 public class CarDto {
+
+    private Long id;
 
     @Size(min=2, max=30, message = "{brand.size}")
     private String brand;
@@ -36,5 +39,9 @@ public class CarDto {
     private String description;
 
     private String image;
+
+    private Long user;
+
+    private boolean highlighted;
 
 }

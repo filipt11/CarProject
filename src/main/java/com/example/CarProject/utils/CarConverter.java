@@ -24,4 +24,23 @@ public class CarConverter {
 
         return car;
     }
+    public CarDto toDto(Car car){
+        if(car == null){
+            return null;
+        }
+
+        CarDto dto = new CarDto();
+        dto.setId(car.getId());
+        dto.setBrand(car.getBrand());
+        dto.setModel(car.getModel());
+        dto.setProdYear(car.getProdYear());
+        dto.setEngineSize(car.getEngineSize());
+        dto.setHp(car.getHp());
+        dto.setDescription(car.getDescription());
+        dto.setImage(car.getImage());
+        dto.setUser(car.getUser().getId());
+        dto.setHighlighted(car.isHighlighted());
+
+        return dto;
+    }
 }
