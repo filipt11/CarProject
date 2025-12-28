@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarService {
@@ -98,6 +99,22 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
 
     return pageNumbers;
 }
+    public String generateCsv(List<String> brands) {
+        List<Car> cars = selectedBrands(brands);
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID,Brand,Model,Year,EngineSize,HP\n");
+        for (Car car : cars) { sb.append(car.getId()).append(",");
+            sb.append(car.getBrand()).append(",");
+            sb.append(car.getModel()).append(",");
+            sb.append(car.getProdYear()).append(",");
+            sb.append(car.getEngineSize()).append(",");
+            sb.append(car.getHp()).append("\n");
+        }
 
+        return sb.toString();
+    }
 
+    public Optional<Car> findById(Long id){
+        return carRepository.findById(id);
+    }
 }

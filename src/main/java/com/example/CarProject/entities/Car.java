@@ -2,6 +2,8 @@ package com.example.CarProject.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -33,6 +35,11 @@ public class Car {
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "car")
     private List<Reservation> reservations;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "my_user_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private MyUser user;
 
 public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {
     this.brand = brand;

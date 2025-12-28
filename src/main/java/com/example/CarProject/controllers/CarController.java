@@ -2,6 +2,7 @@ package com.example.CarProject.controllers;
 
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
+import com.example.CarProject.exceptions.CarNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -89,30 +90,29 @@ public class CarController {
         return "carList";
     }
 
-    @GetMapping("/carExport")
-    public void carExportToCsv(@RequestParam (required=false) List<String> brand, HttpServletResponse response)
-            throws IOException {
+@GetMapping("/carExport")
+public void carExportToCsv(
+        @RequestParam(required = false) List<String> brand,
+        HttpServletResponse response
+) throws IOException {
 
-        response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=cars.csv");
-        List<Car> cars = carService.selectedBrands(brand);
+    response.setContentType("text/csv");
+    response.setHeader("Content-Disposition", "attachment; filename=cars.csv");
 
+    String csv = carService.generateCsv(brand);
 
-        try (PrintWriter writer = response.getWriter()) {
-            writer.println("ID,Brand,Model,Year,EngineSize,HP");
-
-            for (Car car : cars) {
-                writer.printf("%d,%s,%s,%d,%.1f,%d%n",
-                        car.getId(),
-                        car.getBrand(),
-                        car.getModel(),
-                        car.getProdYear(),
-                        car.getEngineSize(),
-                        car.getHp()
-                );
-            }
+    try (PrintWriter writer = response.getWriter()) {
+        writer.write(csv);
         }
     }
+
+@GetMapping("/carDetails/{id}")
+public String carDetails(@PathVariable Long id, Model model){
+    Car car = carService.findById(id).orElseThrow(() -> new CarNotFoundException());
+    String owner = car.getUser().getUsername();
+    model .addAttribute("car",car);
+    model .addAttribute("owner",owner);
+    return "carDetails";
+    }
+
 }
-
-

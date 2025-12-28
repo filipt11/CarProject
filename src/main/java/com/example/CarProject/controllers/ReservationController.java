@@ -65,32 +65,17 @@ public class ReservationController {
         return "reservations";
     }
 
-    @GetMapping("/reservationExport")
-    public void carExportToCsv(HttpServletResponse response)
-            throws IOException {
+@GetMapping("/reservationExport")
+public void reservationExportToCsv(HttpServletResponse response) throws IOException {
 
-        response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
-        List<Reservation> reservations = reservationService.selectAll();
+    response.setContentType("text/csv");
+    response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
 
+    String csv = reservationService.generateCsv();
 
-        try (PrintWriter writer = response.getWriter()) {
-            writer.println("ID,Car ID,Car Brand,Car Model,Start Date,End Date");
-
-            for (Reservation reservation : reservations) {
-                writer.printf("%d,%d,%s,%s,%s,%s%n",
-                        reservation.getId(),
-                        reservation.getCar().getId(),
-                        reservation.getCar().getBrand(),
-                        reservation.getCar().getModel(),
-                        reservation.getStartDate(),
-                        reservation.getEndDate()
-                );
-            }
+    try (PrintWriter writer = response.getWriter()) {
+        writer.write(csv);
         }
     }
-
-
-
 
 }

@@ -101,4 +101,20 @@ public class ReservationService {
 
         return pageNumbers;
     }
+
+    public String generateCsv() {
+        List<Reservation> reservations = selectAll();
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID,Car ID,Car Brand,Car Model,Start Date,End Date\n");
+        for (Reservation reservation : reservations) {
+            sb.append(reservation.getId()).append(",");
+            sb.append(reservation.getCar().getId()).append(",");
+            sb.append(reservation.getCar().getBrand()).append(",");
+            sb.append(reservation.getCar().getModel()).append(",");
+            sb.append(reservation.getStartDate()).append(",");
+            sb.append(reservation.getEndDate()).append("\n");
+        }
+
+        return sb.toString();
+    }
 }

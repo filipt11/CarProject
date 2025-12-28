@@ -234,9 +234,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="car:${list}" class="border-b dark:border-gray-700">
+                    <tr th:each="car:${list}" class="border-b dark:border-gray-700 hover:bg-gray-600">
                         <td th:text="${car.id}" class="px-4 py-3"></td>
-                        <th th:text="${car.brand}" scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"></th>
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <a th:href="@{/carDetails/{id}(id=${car.id})}" class="hover:underline" th:text="${car.brand}"> </a>
+                        </th>
                         <td th:text="${car.model}" class="px-4 py-3"></td>
                         <td th:text="${car.prodYear}" class="px-4 py-3"></td>
                         <td th:text="${car.engineSize}" class="px-4 py-3"></td>
