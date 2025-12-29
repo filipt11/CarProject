@@ -1,13 +1,22 @@
 package com.example.CarProject.services;
 
+import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
+import com.example.CarProject.entities.MyUser;
+import com.example.CarProject.exceptions.CarNotFoundException;
+import com.example.CarProject.exceptions.UserNotFoundException;
+import com.example.CarProject.repositories.MyUserRepository;
+import com.example.CarProject.utils.CarConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import com.example.CarProject.repositories.CarRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +25,13 @@ import java.util.Optional;
 @Service
 public class CarService {
     private final CarRepository carRepository;
+    private final CarConverter carConverter;
+    private final MyUserRepository myUserRepository;
 
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, CarConverter carConverter, MyUserRepository myUserRepository) {
         this.carRepository = carRepository;
+        this.carConverter = carConverter;
+        this.myUserRepository = myUserRepository;
     }
 
     public void saveCar(Car car) {
@@ -117,4 +130,29 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
     public Optional<Car> findById(Long id){
         return carRepository.findById(id);
     }
+
+    @Transactional
+    public void updateEntity(CarDto dto){
+        Car car = carRepository.findById(dto.getId()).orElseThrow(() -> new CarNotFoundException());
+
+        car.setBrand(StringUtils.capitalize(dto.getBrand().toLowerCase()));
+        car.setModel(StringUtils.capitalize(dto.getModel().toLowerCase()));
+        car.setProdYear(dto.getProdYear());
+        car.setEngineSize(dto.getEngineSize());
+        car.setHp(dto.getHp());
+        car.setDescription(dto.getDescription());
+        car.setImage(dto.getImage());
+        car.setHighlighted(dto.isHighlighted());
+
+        MyUser user = myUserRepository.findById(dto.getUser()) .orElseThrow(() -> new UserNotFoundException());
+        car.setUser(user);
+
+    }
+
+    @Transactional
+    public void deleteEntity(Long id){
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException());
+        carRepository.delete(car);
+    }
+
 }

@@ -91,41 +91,58 @@ public class CarController {
         return "carList";
     }
 
-@GetMapping("/carExport")
-public void carExportToCsv(
-        @RequestParam(required = false) List<String> brand,
-        HttpServletResponse response
-) throws IOException {
+    @GetMapping("/carExport")
+    public void carExportToCsv(
+            @RequestParam(required = false) List<String> brand,
+            HttpServletResponse response
+    ) throws IOException {
 
-    response.setContentType("text/csv");
-    response.setHeader("Content-Disposition", "attachment; filename=cars.csv");
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=cars.csv");
 
-    String csv = carService.generateCsv(brand);
+        String csv = carService.generateCsv(brand);
 
-    try (PrintWriter writer = response.getWriter()) {
-        writer.write(csv);
+        try (PrintWriter writer = response.getWriter()) {
+            writer.write(csv);
+            }
         }
-    }
 
-@GetMapping("/carDetails/{id}")
-public String carDetails(@PathVariable Long id, Model model){
-    Car car = carService.findById(id).orElseThrow(() -> new CarNotFoundException());
-    String owner = car.getUser().getUsername();
-    model .addAttribute("car",car);
-    model .addAttribute("owner",owner);
-    return "carDetails";
-    }
+    @GetMapping("/carDetails/{id}")
+    public String carDetails(@PathVariable Long id, Model model){
+        Car car = carService.findById(id).orElseThrow(() -> new CarNotFoundException());
+        String owner = car.getUser().getUsername();
+        model .addAttribute("car",car);
+        model .addAttribute("owner",owner);
+        return "carDetails";
+        }
 
     @GetMapping("/administration/carUpdate/{id}")
     public String carUpdate(@PathVariable Long id, Model model){
         Car car = carService.findById(id).orElseThrow(() -> new CarNotFoundException());
 
         CarDto dto = carConverter.toDto(car);
-//        Long owner = dto.getUser();
         model.addAttribute("carDto",dto);
-//        model.addAttribute("owner",owner);
 
         return "carUpdate";
+    }
+
+    @PostMapping("/administration/carUpdate/process")
+    public String updateCar(@Valid @ModelAttribute CarDto carDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return "carUpdate";
+        }
+        Long id = carDto.getId();
+
+        carService.updateEntity(carDto);
+
+        return "redirect:/carDetails/" +id;
+    }
+
+    @GetMapping("/administration/carDelete/{id}")
+    public String carDelete(@PathVariable Long id){
+        carService.deleteEntity(id);
+
+        return "redirect:/carList";
     }
 
 }

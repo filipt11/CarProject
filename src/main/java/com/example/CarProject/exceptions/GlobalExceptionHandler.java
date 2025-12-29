@@ -25,6 +25,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return "errorPage";
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleUserNotFound(UserNotFoundException ex, Model model) {
+        logger.error("User not found: " + ex);
+        model.addAttribute("status", 404);
+        model.addAttribute("error", ex.getMessage());
+
+        return "errorPage";
+    }
+
     @ExceptionHandler(TakenUsernameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleTakenUsername(TakenUsernameException ex, Model model){
