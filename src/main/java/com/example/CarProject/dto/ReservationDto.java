@@ -11,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,9 +30,11 @@ public class ReservationDto {
     @FutureOrPresent(message = "{reservation.end.date}")
     private LocalDate endDate;
 
-    private MyUser user;
+    private Long userId;
 
     @NotNull(message = "{reservation.empty.car}")
-    private Car car;
+    private Long carId;
+
+    private Long id;
 
 }

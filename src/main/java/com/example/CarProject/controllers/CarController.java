@@ -48,8 +48,8 @@ public class CarController {
         if (bindingResult.hasErrors()) {
             return "formAdding";
         }
-        Car car = carConverter.toEntity(carDto);
-        carService.saveCar(car);
+        carService.saveCar(carDto);
+
         return "redirect:/added";
     }
 

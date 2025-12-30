@@ -34,7 +34,9 @@ public class CarService {
         this.myUserRepository = myUserRepository;
     }
 
-    public void saveCar(Car car) {
+    public void saveCar(CarDto dto) {
+
+        Car car = carConverter.toEntity(dto);
         carRepository.save(car);
     }
 

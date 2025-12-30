@@ -8,8 +8,11 @@ import java.time.LocalDate;
 
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 
-    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END " + "FROM Reservation r " + "WHERE r.car.id = :carId " + "AND r.startDate <= :endDate " + "AND r.endDate >= :startDate")
-    boolean isReservationInTimePeriodExists(Long carId, LocalDate startDate, LocalDate endDate);
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Reservation r " +
+            "WHERE r.car.id = :carId " +
+            "AND (:excludeId IS NULL OR r.id != :excludeId) " +
+            "AND ((r.startDate <= :endDate AND r.endDate >= :startDate))")
+    boolean isReservationInTimePeriodExists(Long carId, LocalDate startDate, LocalDate endDate, Long excludeId);
 
 
 }

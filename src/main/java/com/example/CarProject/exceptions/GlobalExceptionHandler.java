@@ -34,6 +34,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return "errorPage";
     }
+    @ExceptionHandler(ReservationNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleReservationNotFound(ReservationNotFoundException ex, Model model) {
+        logger.error("Reservation not found: " + ex);
+        model.addAttribute("status", 404);
+        model.addAttribute("error", ex.getMessage());
+
+        return "errorPage";
+    }
 
     @ExceptionHandler(TakenUsernameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)

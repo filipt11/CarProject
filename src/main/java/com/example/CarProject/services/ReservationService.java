@@ -4,6 +4,7 @@ import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Reservation;
 import com.example.CarProject.exceptions.CarNotFoundException;
+import com.example.CarProject.exceptions.ReservationNotFoundException;
 import com.example.CarProject.repositories.CarRepository;
 import com.example.CarProject.utils.ReservationConverter;
 import org.springframework.data.domain.Page;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import com.example.CarProject.repositories.ReservationRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -33,15 +36,15 @@ public class ReservationService {
     public List<Reservation> selectAll(){
         return reservationRepository.findAll();
     }
-    public void saveReservation(ReservationDto dto){
-        if (dto.getCar() == null){
-            throw new CarNotFoundException(); }
-        Long carId = dto.getCar().getId();
-        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException());
-        dto.setCar(car);
-        Reservation reservation = reservationConverter.toEntity(dto);
-        reservationRepository.save(reservation);
-    }
+//    public void saveReservation(ReservationDto dto){
+//        if (dto.getCar() == null){
+//            throw new CarNotFoundException(); }
+//        Long carId = dto.getCar().getId();
+//        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException());
+//        dto.setCar(car);
+//        Reservation reservation = reservationConverter.toEntity(dto);
+//        reservationRepository.save(reservation);
+//    }
 
     public Page<Reservation> selectPaging(int page, int size, String sort) {
         Sort sorting;
@@ -117,4 +120,17 @@ public class ReservationService {
 
         return sb.toString();
     }
+
+    public Optional<Reservation> findById(Long id){
+        return reservationRepository.findById(id);
+    }
+
+    @Transactional
+    public void updateReservation(ReservationDto dto){
+        Reservation reservation = reservationRepository.findById(dto.getId()).orElseThrow(() -> new ReservationNotFoundException());
+        reservation.setStartDate(dto.getStartDate());
+        reservation.setEndDate(dto.getEndDate());
+
+    }
+
 }

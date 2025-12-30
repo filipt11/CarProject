@@ -18,13 +18,17 @@ public class ReservationValidator implements ConstraintValidator<NoDoubleReserva
 
     @Override
     public boolean isValid(ReservationDto dto, ConstraintValidatorContext context) {
-        if(dto.getCar() == null || dto.getStartDate() == null || dto.getEndDate() == null) {
+        if(dto.getCarId() == null || dto.getStartDate() == null || dto.getEndDate() == null) {
             return true;
         }
-        boolean exists = reservationRepository.isReservationInTimePeriodExists(
-                dto.getCar().getId(), dto.getStartDate(), dto.getEndDate()
-        );
-        return !exists;
 
+        boolean exists = reservationRepository.isReservationInTimePeriodExists(
+                dto.getCarId(),
+                dto.getStartDate(),
+                dto.getEndDate(),
+                dto.getId()
+        );
+
+        return !exists;
     }
 }

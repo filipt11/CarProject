@@ -1,8 +1,12 @@
 package com.example.CarProject.controllers;
 
+import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Reservation;
+import com.example.CarProject.exceptions.CarNotFoundException;
+import com.example.CarProject.exceptions.ReservationNotFoundException;
+import com.example.CarProject.repositories.CarRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -21,10 +25,12 @@ import java.util.List;
 @Controller
 public class ReservationController {
     private final ReservationService reservationService;
+    private final CarRepository carRepository;
 
     @Autowired
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, CarRepository carRepository) {
         this.reservationService = reservationService;
+        this.carRepository = carRepository;
     }
 
     @Autowired
@@ -36,16 +42,15 @@ public class ReservationController {
         return("formReservation");
     }
 
-    @PostMapping("/addReservation")
-    public String addReservation(@Valid @ModelAttribute ReservationDto reservationDto, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return("formReservation");
-        }
-//        Reservation reservation = reservationConverter.toEntity(reservationDto);
-        reservationService.saveReservation(reservationDto);
-
-        return("addedReservation");
-    }
+//    @PostMapping("/addReservation")
+//    public String addReservation(@Valid @ModelAttribute ReservationDto reservationDto, BindingResult bindingResult){
+//        if(bindingResult.hasErrors()){
+//            return("formReservation");
+//        }
+//        reservationService.saveReservation(reservationDto);
+//
+//        return("addedReservation");
+//    }
 
     @GetMapping("/reservations")
         public String allReservations(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size, @RequestParam (defaultValue = "no") String sort, Model model){
@@ -65,17 +70,79 @@ public class ReservationController {
         return "reservations";
     }
 
-@GetMapping("/reservationExport")
-public void reservationExportToCsv(HttpServletResponse response) throws IOException {
+    @GetMapping("/reservationExport")
+    public void reservationExportToCsv(HttpServletResponse response) throws IOException {
 
-    response.setContentType("text/csv");
-    response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
 
-    String csv = reservationService.generateCsv();
+        String csv = reservationService.generateCsv();
 
-    try (PrintWriter writer = response.getWriter()) {
-        writer.write(csv);
+        try (PrintWriter writer = response.getWriter()) {
+            writer.write(csv);
+            }
         }
+
+    @GetMapping("/reservationDetails/{id}")
+    public String reservationDetails(@PathVariable Long id, Model model){
+        Reservation reservation = reservationService.findById(id).orElseThrow(() -> new ReservationNotFoundException());
+        String owner = reservation.getUser().getUsername();
+        String brand = reservation.getCar().getBrand();
+        String carModel = reservation.getCar().getModel();
+        Long carId = reservation.getCar().getId();
+
+        model.addAttribute("reservation",reservation);
+        model.addAttribute("owner",owner);
+        model.addAttribute("brand",brand);
+        model.addAttribute("carModel",carModel);
+        model.addAttribute("carId",carId);
+
+        return "reservationDetails";
+    }
+
+    @GetMapping("/administration/reservationUpdate/{id}")
+    public String reservationUpdate(@PathVariable Long id, Model model){
+        Reservation reservation = reservationService.findById(id).orElseThrow(() -> new ReservationNotFoundException());
+
+        ReservationDto dto = reservationConverter.toDto(reservation);
+        Car car = carRepository.findById(reservation.getCar().getId()).orElseThrow(() -> new CarNotFoundException());
+
+        Long owner = dto.getUserId();
+        String brand = car.getBrand();
+        String carModel = car.getModel();
+        Long carId = dto.getCarId();
+
+        model.addAttribute("reservationDto",dto);
+        model.addAttribute("owner",owner);
+        model.addAttribute("brand",brand);
+        model.addAttribute("carModel",carModel);
+        model.addAttribute("carId",carId);
+
+        return "reservationUpdate";
+    }
+
+    @PostMapping("/administration/reservationUpdate/process")
+    public String updateReservation(@Valid @ModelAttribute ReservationDto reservationDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            Long owner = reservationDto.getUserId();
+            Long carId = reservationDto.getCarId();
+            Car car = carRepository.findById(carId).orElseThrow(()-> new CarNotFoundException());
+
+            model.addAttribute("owner", owner);
+            model.addAttribute("brand", car.getBrand());
+            model.addAttribute("carModel", car.getModel());
+            model.addAttribute("carId", carId);
+
+            return "reservationUpdate";
+        }
+
+
+
+        reservationService.updateReservation(reservationDto);
+        Long id = reservationDto.getId();
+
+        return "redirect:/reservationDetails/" + id ;
+
     }
 
 }
