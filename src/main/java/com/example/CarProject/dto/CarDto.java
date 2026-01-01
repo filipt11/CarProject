@@ -22,7 +22,7 @@ public class CarDto {
 
     @NotNull(message = "{prodYear.empty}")
     @Min(value=1980, message = "{prodYear.min}")
-    @Max(value=2025, message = "{prodYear.max}")
+    @Max(value=2026, message = "{prodYear.max}")
     private int prodYear;
 
     @NotNull(message = "{engineSize.empty)")

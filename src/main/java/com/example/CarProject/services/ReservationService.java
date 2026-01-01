@@ -2,15 +2,21 @@ package com.example.CarProject.services;
 
 import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Car;
+import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.entities.Reservation;
 import com.example.CarProject.exceptions.CarNotFoundException;
 import com.example.CarProject.exceptions.InvalidReservationDateException;
 import com.example.CarProject.exceptions.ReservationNotFoundException;
+import com.example.CarProject.exceptions.UserNotFoundException;
 import com.example.CarProject.repositories.CarRepository;
+import com.example.CarProject.repositories.MyUserRepository;
+import com.example.CarProject.security.SignedUserDetails;
 import com.example.CarProject.utils.ReservationConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
@@ -23,20 +29,23 @@ import java.util.Optional;
 
 @Service
 public class ReservationService {
+
     private final ReservationRepository reservationRepository;
-
     private final CarRepository carRepository;
+    private final ReservationConverter reservationConverter;
+    private final MyUserRepository myUserRepository;
 
-    public final ReservationConverter reservationConverter;
-
-    public ReservationService(ReservationRepository reservationRepository, CarRepository carRepository, ReservationConverter reservationConverter) {
+    public ReservationService(ReservationRepository reservationRepository, CarRepository carRepository, ReservationConverter reservationConverter, MyUserRepository myUserRepository) {
         this.reservationRepository = reservationRepository;
         this.carRepository = carRepository;
         this.reservationConverter = reservationConverter;
+        this.myUserRepository = myUserRepository;
     }
+
     public List<Reservation> selectAll(){
         return reservationRepository.findAll();
     }
+    
     public void saveReservation(ReservationDto dto){
         if (dto.getCarId() == null){
             throw new CarNotFoundException();
@@ -44,10 +53,17 @@ public class ReservationService {
         if(dto.getStartDate().isAfter(dto.getEndDate())){
             throw new InvalidReservationDateException();
         }
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SignedUserDetails signedUserDetails = (SignedUserDetails) auth.getPrincipal();
+        Long userId = signedUserDetails.getId();
         Long carId = dto.getCarId();
+
         Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException());
+        MyUser user = myUserRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
         Reservation reservation = reservationConverter.toEntity(dto);
+        reservation.setCar(car);
+        reservation.setUser(user);
+
         reservationRepository.save(reservation);
     }
 

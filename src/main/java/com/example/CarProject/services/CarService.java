@@ -6,12 +6,14 @@ import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.exceptions.CarNotFoundException;
 import com.example.CarProject.exceptions.UserNotFoundException;
 import com.example.CarProject.repositories.MyUserRepository;
+import com.example.CarProject.security.SignedUserDetails;
 import com.example.CarProject.utils.CarConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import com.example.CarProject.repositories.CarRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
@@ -36,7 +38,12 @@ public class CarService {
 
     public void saveCar(CarDto dto) {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SignedUserDetails signedUserDetails = (SignedUserDetails) auth.getPrincipal();
+        Long userId = signedUserDetails.getId();
+
         Car car = carConverter.toEntity(dto);
+        car.setUser(myUserRepository.findById(userId).orElseThrow(() -> new UserNotFoundException()));
         carRepository.save(car);
     }
 

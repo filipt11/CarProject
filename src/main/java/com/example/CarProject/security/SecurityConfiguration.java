@@ -5,7 +5,6 @@ import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.repositories.MyUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,9 +53,10 @@ public class SecurityConfiguration {
             throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/authentication/**","/registrationForm","/registryUser","/registration/**").permitAll()
+                        .requestMatchers("/authentication/**","/registrationForm","/registryUser","/registration/**","/accessDenied").permitAll()
                         .requestMatchers("/","/carList","/errorPage").permitAll()
                         .requestMatchers("/output.css","/flowbite.min.js","/images/**").permitAll()
+                        .requestMatchers("/administration/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin((formLogin)->
@@ -81,7 +81,9 @@ public class SecurityConfiguration {
                         .userDetailsService(userDetailsService())
                         .tokenValiditySeconds(60*60*24*31)
                         .key("LouMCbDYl7O2s6pM8RNeJNbr379yNHrM")
-                        .rememberMeParameter("remember"));
+                        .rememberMeParameter("remember")
+                )
+                .exceptionHandling(ex -> ex.accessDeniedPage("/accessDenied"));
 
         return http.build();
     }

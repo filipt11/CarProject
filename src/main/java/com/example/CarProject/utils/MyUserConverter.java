@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyUserConverter {
 
-    @Autowired
-    public MyUserRepository myUserRepository;
-
     public MyUser toEntity(MyUserDto dto){
         if(dto==null){
             return null;
