@@ -42,15 +42,15 @@ public class ReservationController {
         return("formReservation");
     }
 
-//    @PostMapping("/addReservation")
-//    public String addReservation(@Valid @ModelAttribute ReservationDto reservationDto, BindingResult bindingResult){
-//        if(bindingResult.hasErrors()){
-//            return("formReservation");
-//        }
-//        reservationService.saveReservation(reservationDto);
-//
-//        return("addedReservation");
-//    }
+    @PostMapping("/addReservation")
+    public String addReservation(@Valid @ModelAttribute ReservationDto reservationDto, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return("formReservation");
+        }
+        reservationService.saveReservation(reservationDto);
+
+        return("addedReservation");
+    }
 
     @GetMapping("/reservations")
         public String allReservations(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size, @RequestParam (defaultValue = "no") String sort, Model model){
@@ -136,13 +136,19 @@ public class ReservationController {
             return "reservationUpdate";
         }
 
-
-
         reservationService.updateReservation(reservationDto);
         Long id = reservationDto.getId();
 
         return "redirect:/reservationDetails/" + id ;
 
     }
+
+    @GetMapping("/administration/reservationDelete/{id}")
+    public String reservationDelete(@PathVariable Long id){
+            reservationService.deleteReservation(id);
+
+            return "redirect:/reservations";
+        }
+
 
 }

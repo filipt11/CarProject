@@ -113,7 +113,7 @@
         <form method="POST" th:action="@{/addReservation}" th:object="${reservationDto}">
         <div>
             <label th:text="#{form.reservation.car.id}" for="item-weight" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"></label>
-            <input type="number" required th:field="*{car.id}" id="item-weight" class="bg-gray-50 mb-4 w-3/4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
+            <input type="number" required th:field="*{carId}" id="item-weight" class="bg-gray-50 mb-4 w-3/4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" th:placeholder="#{form.required.placeholder}">
         </div>
             <div id="date-range-picker" date-rangepicker class="flex items-center">
             <div class="relative mr-4">
@@ -133,7 +133,7 @@
 
             </button>
             <div style="color:red; margin-top:20px; font-size:18px">
-                <p th:if="${#fields.hasErrors('car.id')}" th:errors="*{car.id}" ></p>
+                <p th:if="${#fields.hasErrors('carId')}" th:errors="*{carId}" ></p>
                 <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" ></p>
                 <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" ></p>
 
@@ -143,10 +143,6 @@
             </div>
         </form>
 
-
-<!--            <p th:if="${#fields.hasErrors('engineSize')}" th:errors="*{engineSize}" ></p>-->
-<!--            <p th:if="${#fields.hasErrors('hp')}" th:errors="*{hp}" ></p>-->
-<!--            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" ></p>-->
 
     </div>
 

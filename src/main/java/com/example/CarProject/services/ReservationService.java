@@ -4,6 +4,7 @@ import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Reservation;
 import com.example.CarProject.exceptions.CarNotFoundException;
+import com.example.CarProject.exceptions.InvalidReservationDateException;
 import com.example.CarProject.exceptions.ReservationNotFoundException;
 import com.example.CarProject.repositories.CarRepository;
 import com.example.CarProject.utils.ReservationConverter;
@@ -36,15 +37,19 @@ public class ReservationService {
     public List<Reservation> selectAll(){
         return reservationRepository.findAll();
     }
-//    public void saveReservation(ReservationDto dto){
-//        if (dto.getCar() == null){
-//            throw new CarNotFoundException(); }
-//        Long carId = dto.getCar().getId();
-//        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException());
-//        dto.setCar(car);
-//        Reservation reservation = reservationConverter.toEntity(dto);
-//        reservationRepository.save(reservation);
-//    }
+    public void saveReservation(ReservationDto dto){
+        if (dto.getCarId() == null){
+            throw new CarNotFoundException();
+        }
+        if(dto.getStartDate().isAfter(dto.getEndDate())){
+            throw new InvalidReservationDateException();
+        }
+
+        Long carId = dto.getCarId();
+        Car car = carRepository.findById(carId) .orElseThrow(() -> new CarNotFoundException());
+        Reservation reservation = reservationConverter.toEntity(dto);
+        reservationRepository.save(reservation);
+    }
 
     public Page<Reservation> selectPaging(int page, int size, String sort) {
         Sort sorting;
@@ -128,9 +133,19 @@ public class ReservationService {
     @Transactional
     public void updateReservation(ReservationDto dto){
         Reservation reservation = reservationRepository.findById(dto.getId()).orElseThrow(() -> new ReservationNotFoundException());
+        if(dto.getStartDate().isAfter(dto.getEndDate())){
+            throw new InvalidReservationDateException();
+        }
+
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
 
+    }
+
+    @Transactional
+    public void deleteReservation(Long id){
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException());
+        reservationRepository.delete(reservation);
     }
 
 }

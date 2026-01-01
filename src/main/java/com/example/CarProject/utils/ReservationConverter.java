@@ -25,7 +25,7 @@ public class ReservationConverter {
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
         reservation.setUser(usersRepository.findById(1L).orElse(null));
-        reservation.setCar(carRepository.findById(dto.getId()).orElse(null));
+        reservation.setCar(carRepository.findById(dto.getCarId()).orElse(null));
 
         return reservation;
     }

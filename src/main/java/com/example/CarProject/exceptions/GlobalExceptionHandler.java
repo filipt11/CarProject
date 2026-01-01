@@ -44,6 +44,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return "errorPage";
     }
 
+    @ExceptionHandler(InvalidReservationDateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInvalidReservationDate(InvalidReservationDateException ex, Model model) {
+        logger.warn("Invalid Reservation Date: " + ex);
+        model.addAttribute("status", 400);
+        model.addAttribute("error", ex.getMessage());
+
+        return "errorPage";
+    }
+
     @ExceptionHandler(TakenUsernameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleTakenUsername(TakenUsernameException ex, Model model){

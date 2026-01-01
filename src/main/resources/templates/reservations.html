@@ -198,8 +198,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="reservation:${list}" class="border-b dark:border-gray-700">
-                        <th th:text="${reservation.id}" scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"></th>
+                    <tr th:each="reservation:${list}" class="border-b dark:border-gray-700 hover:bg-gray-600">
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <a th:href="@{/reservationDetails/{id}(id=${reservation.id})}" class="hover:underline" th:text="${reservation.id}"> </a>
+                        </th>
                         <td th:text="${reservation.car.id}" class="px-4 py-3"></td>
                         <td th:text="${reservation.car.brand}" class="px-4 py-3" ></td>
                         <td th:text="${reservation.car.model}" class="px-4 py-3" ></td>
