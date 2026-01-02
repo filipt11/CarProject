@@ -33,12 +33,11 @@ public class Car {
     @Column(columnDefinition = "boolean default false")
     private boolean highlighted=false;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "car")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "car", cascade = CascadeType.REMOVE)
     private List<Reservation> reservations;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "my_user_id")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
     private MyUser user;
 
 public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {

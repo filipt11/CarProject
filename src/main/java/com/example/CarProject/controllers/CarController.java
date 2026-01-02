@@ -50,12 +50,7 @@ public class CarController {
         }
         carService.saveCar(carDto);
 
-        return "redirect:/added";
-    }
-
-    @RequestMapping("/added")
-    public String added123 (Model model){
-        return "added";
+        return "redirect:/allCars";
     }
 
     @GetMapping("/allCars")

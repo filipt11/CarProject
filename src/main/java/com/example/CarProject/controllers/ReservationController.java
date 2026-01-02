@@ -49,8 +49,9 @@ public class ReservationController {
         }
         reservationService.saveReservation(reservationDto);
 
-        return("addedReservation");
+        return("redirect:/reservations");
     }
+
 
     @GetMapping("/reservations")
         public String allReservations(@RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size, @RequestParam (defaultValue = "no") String sort, Model model){

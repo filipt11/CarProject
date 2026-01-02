@@ -25,12 +25,10 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="myUser_id")
-    @OnDelete(action= OnDeleteAction.SET_NULL)
     private MyUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="car_id")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Car car;
 
     public Reservation(LocalDate startDate, LocalDate endDate, MyUser user, Car car) {

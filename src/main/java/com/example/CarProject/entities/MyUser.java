@@ -22,10 +22,10 @@ public class MyUser {
     private String password;
     private String role;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Reservation> reservations;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Car> cars;
 
     @Column(columnDefinition = "boolean default false")
