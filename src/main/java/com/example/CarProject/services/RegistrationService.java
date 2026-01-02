@@ -42,7 +42,7 @@ public class RegistrationService {
         }
 
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        dto.setRole("USER");
+        dto.setRole("ROLE_USER");
         MyUser user = myUserConverter.toEntity(dto);
 
         myUserRepository.save(user);

@@ -80,8 +80,8 @@ public class ReservationController {
 
         try (PrintWriter writer = response.getWriter()) {
             writer.write(csv);
-            }
         }
+    }
 
     @GetMapping("/reservationDetails/{id}")
     public String reservationDetails(@PathVariable Long id, Model model){
@@ -103,9 +103,9 @@ public class ReservationController {
     @GetMapping("/administration/reservationUpdate/{id}")
     public String reservationUpdate(@PathVariable Long id, Model model){
         Reservation reservation = reservationService.findById(id).orElseThrow(() -> new ReservationNotFoundException());
+        Car car = carRepository.findById(reservation.getCar().getId()).orElseThrow(() -> new CarNotFoundException());
 
         ReservationDto dto = reservationConverter.toDto(reservation);
-        Car car = carRepository.findById(reservation.getCar().getId()).orElseThrow(() -> new CarNotFoundException());
 
         Long owner = dto.getUserId();
         String brand = car.getBrand();

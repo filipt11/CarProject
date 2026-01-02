@@ -28,10 +28,7 @@ public class MyUser {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Car> cars;
 
-    public MyUser(String nickname, String email, String password, String role, List<Reservation> reservations) {
-        this.username = nickname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
+    @Column(columnDefinition = "boolean default false")
+    private boolean isBanned=false;
+
 }

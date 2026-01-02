@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginProcessController {
 
     @RequestMapping("/authentication/login")
-    public String login(@RequestParam (required = false)String failed, Model model){
+    public String login(@RequestParam (required = false)String failed, @RequestParam(required = false) String banned, Model model){
 
-        if(failed!=null) {
+        if (banned != null) {
+            model.addAttribute("loginError", "You account has been banned");
+        }
+
+        if(failed != null) {
             model.addAttribute("loginError", "Invalid username or password");
         }
 

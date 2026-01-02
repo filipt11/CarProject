@@ -7,21 +7,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
+
 public class SignedUserDetails implements UserDetails {
 
-    private Long id;
-    private String username;
-    private String email;
-    private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Long id;
+    private final String username;
+    private final String email;
+    private final String password;
+    private final Collection<? extends GrantedAuthority> authorities;
+    private final boolean accountLocked;
 
-    @Override
-    public String getUsername() {
-        return username;
+    public SignedUserDetails(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities, boolean accountLocked) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
+        this.accountLocked = accountLocked;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class SignedUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !accountLocked;
     }
 
     @Override

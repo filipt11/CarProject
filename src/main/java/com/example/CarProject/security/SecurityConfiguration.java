@@ -5,6 +5,8 @@ import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.repositories.MyUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,7 +44,8 @@ public class SecurityConfiguration {
                     user.getUsername(),
                     user.getEmail(),
                     user.getPassword(),
-                    authorities
+                    authorities,
+                    user.isBanned()
             );
         };
     }
@@ -53,22 +56,28 @@ public class SecurityConfiguration {
             throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/authentication/**","/registrationForm","/registryUser","/registration/**","/accessDenied").permitAll()
-                        .requestMatchers("/","/carList","/errorPage").permitAll()
+                        .requestMatchers("/authentication/**","/registrationForm","/registryUser","/registration/**").not().authenticated()
+                        .requestMatchers("/","/carList","/errorPage","/accessDenied").permitAll()
                         .requestMatchers("/output.css","/flowbite.min.js","/images/**").permitAll()
                         .requestMatchers("/administration/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin((formLogin)->
-                        formLogin
-                                .usernameParameter("username")
-                                .passwordParameter("password")
-                                .loginPage("/authentication/login")
-                                .failureUrl("/authentication/login?failed")
-                                .defaultSuccessUrl("/",true)
-                                .loginProcessingUrl("/authentication/login/process")
-                                .permitAll()
-
+                .formLogin(form -> form
+                        .loginPage("/authentication/login")
+                        .loginProcessingUrl("/authentication/login/process")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .failureHandler((request, response, exception) -> {
+                            if (exception instanceof LockedException) {
+                                response.sendRedirect("/authentication/login?banned");
+                            } else if (exception instanceof BadCredentialsException) {
+                                response.sendRedirect("/authentication/login?failed");
+                            } else {
+                                response.sendRedirect("/authentication/login?failed");
+                            }
+                        })
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
                 )
                 .logout((logout)-> logout
                                 .deleteCookies("JSESSIONID","remember-me")
