@@ -28,7 +28,7 @@ public class CarDto {
     @NotNull(message = "{engineSize.empty)")
     @DecimalMin(value="0.6",message = "{engineSize.min}")
     @DecimalMax(value="8.0",message = "{engineSize.max}")
-    private float engineSize;
+    private double engineSize;
 
     @NotNull(message = "{hp.empty)")
     @Min(value=40, message = "{hp.min}")

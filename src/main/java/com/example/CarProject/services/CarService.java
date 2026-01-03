@@ -47,10 +47,6 @@ public class CarService {
         carRepository.save(car);
     }
 
-    public List<Car> selectAll() {
-        return carRepository.findAll();
-    }
-
     public List<String> selectBrands(){
         return carRepository.findAllDistinctBrandsOrdered();
     }
@@ -121,6 +117,7 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
 
     return pageNumbers;
 }
+
     public String generateCsv(List<String> brands) {
         List<Car> cars = selectedBrands(brands);
         StringBuilder sb = new StringBuilder();

@@ -24,7 +24,7 @@ public class Car {
     private String brand;
     private String model;
     private int prodYear;
-    private float engineSize;
+    private double engineSize;
     private int hp;
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -48,5 +48,14 @@ public Car(String brand, String model, int prodYear, float engineSize, int hp, S
     this.hp = hp;
     this.description = description;
 }
+
+    public Car(long id, String brand, String model, int prodYear, double engineSize, int hp) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.prodYear = prodYear;
+        this.engineSize = engineSize;
+        this.hp = hp;
+    }
 
 }
