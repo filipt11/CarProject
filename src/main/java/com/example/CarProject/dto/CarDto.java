@@ -44,4 +44,10 @@ public class CarDto {
 
     private boolean highlighted;
 
+    public void setEngineSize(Double engineSize) {
+        if (engineSize != null) {
+            this.engineSize = Math.round(engineSize * 10.0) / 10.0;
+        }
+    }
+
 }

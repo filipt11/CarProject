@@ -140,7 +140,6 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
     @Transactional
     public void updateEntity(CarDto dto){
         Car car = carRepository.findById(dto.getId()).orElseThrow(() -> new CarNotFoundException());
-
         car.setBrand(StringUtils.capitalize(dto.getBrand().toLowerCase()));
         car.setModel(StringUtils.capitalize(dto.getModel().toLowerCase()));
         car.setProdYear(dto.getProdYear());

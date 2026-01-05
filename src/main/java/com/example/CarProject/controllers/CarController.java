@@ -22,14 +22,12 @@ import java.util.List;
 @Controller
 public class CarController {
     private final CarService carService;
+    private final CarConverter carConverter;
 
-    @Autowired
-    public CarController(CarService carService) {
+    public CarController(CarService carService, CarConverter carConverter) {
         this.carService = carService;
+        this.carConverter = carConverter;
     }
-
-    @Autowired
-    private CarConverter carConverter;
 
     @RequestMapping("/")
     public String carList1(Model model){

@@ -3,17 +3,13 @@ package com.example.CarProject.services;
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.MyUser;
+import com.example.CarProject.exceptions.CarNotFoundException;
+import com.example.CarProject.exceptions.UserNotFoundException;
 import com.example.CarProject.repositories.CarRepository;
 import com.example.CarProject.repositories.MyUserRepository;
 import com.example.CarProject.security.SignedUserDetails;
 import com.example.CarProject.utils.CarConverter;
-import jakarta.validation.constraints.AssertTrue;
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assert;
-import org.checkerframework.checker.signedness.qual.Signed;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -29,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -61,6 +57,7 @@ public class CarServiceTest {
     void shouldSaveCarOwnedByCurrentlyLoginUser(){
         CarDto carDto = new CarDto();
         Car car = new Car();
+        car.setEngineSize(1.5);
 
         MyUser myUser = new MyUser();
 
@@ -220,13 +217,13 @@ public class CarServiceTest {
 
     @Test
     void shouldGenerateCsvWithCarData() {
-        Car car = new Car(1,"Bmw", "E36", 2020, 2, 140);
+        Car car = new Car(1,"Bmw", "E36", 2020, 2.4, 140);
         Page<Car> page = new PageImpl<>(List.of(car));
         when(carRepository.findAll(any(Pageable.class))).thenReturn(page);
 
         String csv = carService.generateCsv(null);
 
-        assertThat(csv).contains("1,Bmw,E36,2020,2.0,140");
+        assertThat(csv).contains("1,Bmw,E36,2020,2.4,140");
     }
 
     @Test
@@ -293,25 +290,90 @@ public class CarServiceTest {
 
     @Test
     void shouldCapitalizeBrandAndModel(){
+        Long carId = 1L;
+        Long myUserId = 20L;
 
+        Car car = new Car();
+        car.setId(carId);
+        car.setBrand("Bmw");
+        car.setModel("M3");
+
+        MyUser myUser = new MyUser();
+        myUser.setId(myUserId);
+
+        CarDto carDto = new CarDto();
+
+        carDto.setId(carId);
+        carDto.setBrand("ToyOtA");
+        carDto.setModel("ceLiCa");
+        carDto.setUser(myUserId);
+
+        when(carRepository.findById(carId)).thenReturn(Optional.of(car));
+        when(myUserRepository.findById(myUserId)).thenReturn(Optional.of(myUser));
+
+        carService.updateEntity(carDto);
+
+        Assertions.assertEquals("Toyota",car.getBrand());
+        Assertions.assertEquals("Celica",car.getModel());
+        Assertions.assertEquals(myUser,car.getUser());
 
     }
 
     @Test
-    void shouldThrowExceptionWhenCarNotFoundDuringUpgrade(){
+    void shouldThrowExceptionWhenCarNotFoundDuringUpdate(){
+        CarDto carDto = new CarDto();
+        carDto.setId(99999L);
+        when(carRepository.findById(carDto.getId())).thenReturn(Optional.empty());
 
+        assertThatThrownBy(()-> carService.updateEntity(carDto)).isInstanceOf(CarNotFoundException.class);
+
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUserNotFoundDuringUpgrade(){
+        Long carId = 1L;
+        Long myUserId = 99999L;
+
+        Car car = new Car();
+        car.setId(carId);
+        car.setBrand("Bmw");
+        car.setModel("M3");
+
+        MyUser myUser = new MyUser();
+        myUser.setId(myUserId);
+
+        CarDto carDto = new CarDto();
+
+        carDto.setId(carId);
+        carDto.setBrand("Audi");
+        carDto.setModel("Rs7");
+        carDto.setUser(myUserId);
+
+        when(carRepository.findById(carId)).thenReturn(Optional.of(car));
+        when(myUserRepository.findById(myUserId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(()-> carService.updateEntity(carDto)).isInstanceOf(UserNotFoundException.class);
 
     }
 
     @Test
     void shouldDeleteCar(){
+        Car car = new Car();
+        Long id = 10L;
+        car.setId(id);
 
+        when(carRepository.findById(10L)).thenReturn(Optional.of(car));
+        carService.deleteEntity(id);
+
+        verify(carRepository).delete(car);
 
     }
 
     @Test
     void shouldThrowExceptionWhenCarNotFoundDuringDelete(){
+        when(carRepository.findById(999L)).thenReturn(Optional.empty());
 
+        assertThatThrownBy(() -> carService.deleteEntity(999L)).isInstanceOf(CarNotFoundException.class);
 
     }
 

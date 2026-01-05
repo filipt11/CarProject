@@ -255,7 +255,7 @@
                         </th>
                         <td th:text="${car.model}" class="px-4 py-3"></td>
                         <td th:text="${car.prodYear}" class="px-4 py-3"></td>
-                        <td th:text="${car.engineSize}" class="px-4 py-3"></td>
+                        <td th:text="${#numbers.formatDecimal(car.engineSize,1,1,'POINT')}" class="px-4 py-3"></td>
                         <td th:text="${car.hp}" class="px-4 py-3"></td>
 
                     </tr>
