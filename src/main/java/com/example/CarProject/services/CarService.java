@@ -122,7 +122,8 @@ public List<Integer> createPageNumbers(int current, int totalPages) {
         List<Car> cars = selectedBrands(brands);
         StringBuilder sb = new StringBuilder();
         sb.append("ID,Brand,Model,Year,EngineSize,HP\n");
-        for (Car car : cars) { sb.append(car.getId()).append(",");
+        for (Car car : cars) {
+            sb.append(car.getId()).append(",");
             sb.append(car.getBrand()).append(",");
             sb.append(car.getModel()).append(",");
             sb.append(car.getProdYear()).append(",");

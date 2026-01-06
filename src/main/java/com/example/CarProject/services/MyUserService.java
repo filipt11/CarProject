@@ -90,13 +90,13 @@ public class MyUserService {
     }
 
     @Transactional
-    public void banUser(long id){
+    public void banUser(Long id){
         MyUser myUser = myUserRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         myUser.setBanned(true);
     }
 
     @Transactional
-    public void unBanUser(long id){
+    public void unBanUser(Long id){
         MyUser myUser = myUserRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         myUser.setBanned(false);
     }
