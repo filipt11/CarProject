@@ -73,7 +73,7 @@ public class CarServiceTest {
 
         assertEquals(myUser,car.getUser());
 
-        verify(carRepository,times(1)).save(car);
+        verify(carRepository).save(car);
 
     }
 
