@@ -19,18 +19,4 @@ public class MyUserConverter {
         return myUser;
     }
 
-    public MyUserDto toDto(MyUser myUser){
-        if(myUser==null){
-            return null;
-        }
-        MyUserDto dto = new MyUserDto();
-        dto.setId(myUser.getId());
-        dto.setUsername(myUser.getUsername());
-        dto.setEmail(myUser.getEmail());
-        dto.setRole(myUser.getRole());
-
-        return dto;
-    }
-
-
 }
