@@ -59,9 +59,11 @@ public class CarService {
         Sort sorting;
         if ("no".equals(sort)) {
             sorting = Sort.by("id").ascending();
-        } else if ("asc".equals(sort)) {
+        }
+        else if ("asc".equals(sort)) {
             sorting = Sort.by("brand").ascending();
-        } else {
+        }
+        else {
             sorting = Sort.by("brand").descending();
         }
         Pageable paging = PageRequest.of(page, size, sorting);
