@@ -7,7 +7,7 @@ import com.example.CarProject.exceptions.CarNotFoundException;
 import com.example.CarProject.exceptions.UserNotFoundException;
 import com.example.CarProject.repositories.MyUserRepository;
 import com.example.CarProject.security.SignedUserDetails;
-import com.example.CarProject.utils.CarConverter;
+import com.example.CarProject.converters.CarConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

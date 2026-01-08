@@ -1,4 +1,4 @@
-package com.example.CarProject.utils;
+package com.example.CarProject.converters;
 
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;

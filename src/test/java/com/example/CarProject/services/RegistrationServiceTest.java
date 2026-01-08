@@ -7,7 +7,7 @@ import com.example.CarProject.exceptions.PasswordsNotMatchingException;
 import com.example.CarProject.exceptions.TakenEmailException;
 import com.example.CarProject.exceptions.TakenUsernameException;
 import com.example.CarProject.repositories.MyUserRepository;
-import com.example.CarProject.utils.MyUserConverter;
+import com.example.CarProject.converters.MyUserConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

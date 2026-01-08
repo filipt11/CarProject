@@ -1,10 +1,9 @@
-package com.example.CarProject.utils;
+package com.example.CarProject.converters;
 
+import com.example.CarProject.converters.CarConverter;
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.MyUser;
-import com.example.CarProject.entities.Reservation;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,10 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 public class CarConverterTest {

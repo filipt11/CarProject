@@ -1,4 +1,4 @@
-package com.example.CarProject.utils;
+package com.example.CarProject.converters;
 
 import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Reservation;

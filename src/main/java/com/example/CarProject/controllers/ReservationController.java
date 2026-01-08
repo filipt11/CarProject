@@ -1,6 +1,5 @@
 package com.example.CarProject.controllers;
 
-import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.dto.ReservationDto;
 import com.example.CarProject.entities.Car;
 import com.example.CarProject.entities.Reservation;
@@ -16,11 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.CarProject.services.ReservationService;
-import com.example.CarProject.utils.ReservationConverter;
+import com.example.CarProject.converters.ReservationConverter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 @Controller
 public class ReservationController {

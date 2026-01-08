@@ -2,7 +2,6 @@ package com.example.CarProject.controllers;
 
 import com.example.CarProject.dto.CarDto;
 import com.example.CarProject.entities.Car;
-import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.exceptions.CarNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -10,10 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.CarProject.services.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import com.example.CarProject.utils.CarConverter;
+import com.example.CarProject.converters.CarConverter;
 
 import java.io.IOException;
 import java.io.PrintWriter;

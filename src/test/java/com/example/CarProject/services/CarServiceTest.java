@@ -8,7 +8,7 @@ import com.example.CarProject.exceptions.UserNotFoundException;
 import com.example.CarProject.repositories.CarRepository;
 import com.example.CarProject.repositories.MyUserRepository;
 import com.example.CarProject.security.SignedUserDetails;
-import com.example.CarProject.utils.CarConverter;
+import com.example.CarProject.converters.CarConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

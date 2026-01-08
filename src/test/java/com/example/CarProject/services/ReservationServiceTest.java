@@ -12,7 +12,7 @@ import com.example.CarProject.repositories.CarRepository;
 import com.example.CarProject.repositories.MyUserRepository;
 import com.example.CarProject.repositories.ReservationRepository;
 import com.example.CarProject.security.SignedUserDetails;
-import com.example.CarProject.utils.ReservationConverter;
+import com.example.CarProject.converters.ReservationConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

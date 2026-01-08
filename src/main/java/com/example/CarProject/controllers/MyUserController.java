@@ -1,13 +1,11 @@
 package com.example.CarProject.controllers;
 
 
-import com.example.CarProject.dto.MyUserDto;
 import com.example.CarProject.dto.MyUserUpdateDto;
 import com.example.CarProject.entities.MyUser;
 import com.example.CarProject.exceptions.UserNotFoundException;
 import com.example.CarProject.repositories.MyUserRepository;
 import com.example.CarProject.services.MyUserService;
-import com.example.CarProject.utils.MyUserConverter;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

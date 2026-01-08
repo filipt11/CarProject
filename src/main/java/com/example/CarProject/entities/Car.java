@@ -42,7 +42,7 @@ public class Car {
     @JoinColumn(name = "my_user_id")
     private MyUser user;
 
-public Car(String brand, String model, int prodYear, float engineSize, int hp, String description) {
+public Car(String brand, String model, int prodYear, double engineSize, int hp, String description) {
     this.brand = brand;
     this.model = model;
     this.prodYear = prodYear;
