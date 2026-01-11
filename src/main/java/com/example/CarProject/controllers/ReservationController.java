@@ -23,12 +23,9 @@ import java.io.PrintWriter;
 @Controller
 public class ReservationController {
     private final ReservationService reservationService;
-    private final CarRepository carRepository;
 
-    @Autowired
-    public ReservationController(ReservationService reservationService, CarRepository carRepository) {
+    public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
-        this.carRepository = carRepository;
     }
 
     @Autowired
@@ -84,7 +81,7 @@ public class ReservationController {
 
     @GetMapping("/reservationDetails/{id}")
     public String reservationDetails(@PathVariable Long id, Model model){
-        Reservation reservation = reservationService.findById(id).orElseThrow(() -> new ReservationNotFoundException());
+        Reservation reservation = reservationService.findById(id);
         String owner = reservation.getUser().getUsername();
         String brand = reservation.getCar().getBrand();
         String carModel = reservation.getCar().getModel();
@@ -101,8 +98,8 @@ public class ReservationController {
 
     @GetMapping("/administration/reservationUpdate/{id}")
     public String reservationUpdate(@PathVariable Long id, Model model){
-        Reservation reservation = reservationService.findById(id).orElseThrow(() -> new ReservationNotFoundException());
-        Car car = carRepository.findById(reservation.getCar().getId()).orElseThrow(() -> new CarNotFoundException());
+        Reservation reservation = reservationService.findById(id);
+        Car car = reservationService.findCarById(reservation.getCar().getId());
 
         ReservationDto dto = reservationConverter.toDto(reservation);
 
@@ -125,7 +122,7 @@ public class ReservationController {
         if (bindingResult.hasErrors()) {
             Long owner = reservationDto.getUserId();
             Long carId = reservationDto.getCarId();
-            Car car = carRepository.findById(carId).orElseThrow(()-> new CarNotFoundException());
+            Car car = reservationService.findCarById(carId);
 
             model.addAttribute("owner", owner);
             model.addAttribute("brand", car.getBrand());

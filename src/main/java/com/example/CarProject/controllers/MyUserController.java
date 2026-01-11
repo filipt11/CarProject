@@ -3,8 +3,6 @@ package com.example.CarProject.controllers;
 
 import com.example.CarProject.dto.MyUserUpdateDto;
 import com.example.CarProject.entities.MyUser;
-import com.example.CarProject.exceptions.UserNotFoundException;
-import com.example.CarProject.repositories.MyUserRepository;
 import com.example.CarProject.services.MyUserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -21,11 +19,9 @@ import java.io.PrintWriter;
 public class MyUserController {
 
     private final MyUserService myUserService;
-    private final MyUserRepository myUserRepository;
 
-    public MyUserController(MyUserService myUserService, MyUserRepository myUserRepository) {
+    public MyUserController(MyUserService myUserService) {
         this.myUserService = myUserService;
-        this.myUserRepository = myUserRepository;
     }
 
     @GetMapping("/administration/userList")
@@ -48,16 +44,9 @@ public class MyUserController {
 
     @GetMapping("/administration/userUpdate/{id}")
     public String userUpdate(@PathVariable Long id, Model model){
-        MyUser user = myUserRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        MyUserUpdateDto dto = new MyUserUpdateDto();
-        dto.setId(user.getId());
-        dto.setUsername(user.getUsername());
-        dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole());
-        dto.setBanned(user.isBanned());
+        MyUserUpdateDto dto = myUserService.findUserForUpdate(id);
 
-        model.addAttribute("userDto",dto);
-
+        model.addAttribute("userDto", dto);
         return "userUpdate";
     }
 

@@ -26,6 +26,19 @@ public class MyUserService {
         return myUserRepository.findAll();
     }
 
+    public MyUserUpdateDto findUserForUpdate(Long id) {
+        MyUser user = myUserRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+        MyUserUpdateDto dto = new MyUserUpdateDto();
+
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+        dto.setBanned(user.isBanned());
+
+        return dto;
+    }
+
     public Page<MyUser> selectPaging(int page, int size) {
 
         Pageable paging = PageRequest.of(page, size);
