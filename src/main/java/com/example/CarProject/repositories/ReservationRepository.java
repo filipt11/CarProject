@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 
@@ -13,6 +14,8 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
             "AND (:excludeId IS NULL OR r.id != :excludeId) " +
             "AND ((r.startDate <= :endDate AND r.endDate >= :startDate))")
     boolean isReservationInTimePeriodExists(Long carId, LocalDate startDate, LocalDate endDate, Long excludeId);
+
+    Optional<Reservation> findByStartDateAndEndDateAndCarId(LocalDate startDate, LocalDate endDate, Long carId);
 
 
 }

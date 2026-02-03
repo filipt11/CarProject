@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CarRepository extends JpaRepository<Car,Long> {
     List<Car> findByHighlightedTrue();
@@ -15,4 +16,5 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     List<String> findAllDistinctBrandsOrdered();
 
     Page<Car> findByBrandIn(List<String> brands, Pageable pageable);
+    Optional<Car> findByBrandAndModelAndProdYear(String brand, String model, int prodYear);
 }
