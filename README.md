@@ -59,7 +59,7 @@ Main purpose of the project was to learn Sping Boot framework. Including functio
 
 You should see the home page:
 
-![home page image](image-2.png)
+![home page image](images/image-2.png)
 
 
 ### Default users
@@ -75,19 +75,19 @@ You should see the home page:
 ## Screenshots
 
 ### Login Page
-![login screen image](image-1.png)
+![login screen image](images/image-1.png)
 
 ### Registration Page
-![registration-screen image](image-3.png)
+![registration-screen image](images/image-3.png)
 
 ### Car Listing
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 ### Adding New Car
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
 ### User management (Admin only)
-![img.png](img.png)
+![img.png](images/img.png)
 
 ## Testing
 ## Application test were prepared using Junit5 library. Tests focus on the business layer with **90%** line coverage of services.  
