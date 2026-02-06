@@ -34,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
         MyUser admin = createUserIfNotExists("admin", "admin@example.com", "123", "ROLE_ADMIN");
         MyUser user = createUserIfNotExists("testuser", "test.email@example.com", "123", "ROLE_USER");
 
-        Car bmw = createCarIfNotExists("BMW","M3",4.2,420,2008,"m3.png",true, admin,"relatively fast car");
+        Car bmw = createCarIfNotExists("Bmw","M3",4.2,420,2008,"m3.png",true, admin,"relatively fast car");
 
         Car porsche =  createCarIfNotExists("Porsche","911",5.0,534,2016,"porshe911.jpg",true, admin,"relatively even faster car");
 
